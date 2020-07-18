@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#171919</color>
+<!--    <color name="colorAccent">#03DAC5</color>-->
+    <color name="colorAccent">#1d9099</color>
+
+
+<!--    <color name="gradientStart">#ffe18a</color>-->
+<!--    <color name="gradientCenter">#529cfc</color>-->
+<!--    <color name="gradientCenter">#ff9cb1</color>-->
+<!--    <color name="gradientCenter">#ffe273</color>-->
+<!--    <color name="gradientCenter">#ffc32d</color>-->
+<!--    <color name="gradientEnd">#9cedff</color>-->
+<!--    <color name="gradientEnd">#ffe18a</color>-->
+    <color name="gradientStart">#272929</color>
+    <color name="gradientCenter">#272929</color>
+    <color name="gradientEnd">#272929</color>
+
+    <color name="logoRed">#d53933</color>
+    <color name="logoYellow">#e59c11</color>
+    <color name="logoBlue">#1d9099</color>
+
+
+    <array name="pen_colors">
+        <item name="red">#d53933</item>
+        <item name="blue">#006eff</item>
+        <item name="green">#00ce43</item>
+        <item name="purple">#7c04d5</item>
+        <item name="orange">#ff8d00</item>
+        <item name="pink">#ff4ba2</item>
+    </array>
+</resources>

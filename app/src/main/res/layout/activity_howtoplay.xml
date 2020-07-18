@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/gradient_anim">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/go_back"
+        android:layout_margin="20sp">
+
+    <ImageView
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HOW TO PLAY?"
+        android:layout_margin="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_below="@+id/go_back"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:gravity="center"/>
+
+        <ImageView
+            android:layout_width="240sp"
+            android:layout_height="240sp"
+            android:src="@drawable/help"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"/>
+
+</RelativeLayout>
