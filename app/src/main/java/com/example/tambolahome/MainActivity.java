@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    List<Integer> ids;
+
     public void makeTicket() {
         for (int r = 0; r < 3; r++) {
             for (int c = 0; c < 9; c++) {
@@ -95,13 +97,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    LinearLayout changePen, newGame;
-    ImageView imgpen, imgnew, goHome, goBack;
+    LinearLayout changePen, newGame, undo;
+    TextView undoText;
+    ImageView imgpen, imgnew, goHome, goBack, undoImg;
 
 //    int pen = 0;
 
     int stroke = 0;
-
+    boolean showAgain;
+    boolean undoClicked;
     int count;
 
     @Override
@@ -110,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         count = 0;
+        showAgain = true;
+        ids = new ArrayList<Integer>();
 
         RelativeLayout layout = findViewById(R.id.game_layout);
         AnimationDrawable animd = (AnimationDrawable) layout.getBackground();
@@ -133,8 +139,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         changePen = findViewById(R.id.change_pen_layout);
         newGame = findViewById(R.id.new_game_layout);
+        undo = findViewById(R.id.undo_layout);
+        undoImg = findViewById(R.id.img_undo);
+        undoText = findViewById(R.id.undo);
+        undoClicked = false;
         goHome = findViewById(R.id.home_layout);
         goBack = findViewById(R.id.go_back);
+
+        undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!undoClicked) {
+                    undoImg.setImageResource(R.drawable.ic_done_white_24);
+                    undoText.setText("Done");
+                    changePen.setClickable(false);
+                    newGame.setClickable(false);
+                    if (showAgain) {
+                        AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                        b.setTitle("Select the numbers you want to UNDO. Once you're done, click on DONE (top-right of the screen).");
+                        b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        b.setNeutralButton("Don't show again", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                showAgain = false;
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog d = b.create();
+                        d.show();
+                    }
+                } else {
+                    undoImg.setImageResource(R.drawable.ic_undo_24);
+                    undoText.setText("Undo");
+                    changePen.setClickable(true);
+                    newGame.setClickable(true);
+                }
+                undoClicked = !undoClicked;
+            }
+        });
 
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,31 +327,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.i("Ticket VIEW ::: ", "onClick--" + view.getId());
 
-//        int id = view.getId();
+        if (!undoClicked) {
+            if (view.getId() != changePen.getId() && view.getId() != newGame.getId() &&
+                    view.getId() != goHome.getId() && view.getId() != undo.getId() &&
+                    view.getId() != undoImg.getId() && view.getId() != undoText.getId()) {
 
-        if (view.isClickable() && view.getId() != changePen.getId() &&
-                view.getId() != newGame.getId() && view.getId() != goHome.getId()) {
-            count += 1;
+                if (!ids.contains(view.getId())) {
+                    count += 1;
+                    Log.i("Ticket CUT count ---> ", String.valueOf(count));
+                    view.setBackgroundResource(stroke);
+                    ids.add(view.getId());
+                    TextView item = (TextView) view;
+                    item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
 
-            Log.i("Ticket cut ::: count--", String.valueOf(count));
-            view.setClickable(false);
-            view.setBackgroundResource(stroke);
-            TextView item = (TextView) view;
-            item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-
-            if (count == 15) {
-//          Toast.makeText(this, "Full House!", Toast.LENGTH_LONG).show();
-                AlertDialog.Builder b = new AlertDialog.Builder(this);
-                b.setTitle("Congratulations!");
-                b.setMessage("You got a Full House");
-                b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+                    if (count == 15) {
+                        AlertDialog.Builder b = new AlertDialog.Builder(this);
+                        b.setTitle("Congratulations!");
+                        b.setMessage("You got a Full House");
+                        b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog d = b.create();
+                        d.show();
                     }
-                });
-                AlertDialog d = b.create();
-                d.show();
+                }
+            }
+        } else {
+            if (ids.contains(view.getId())) {
+                count -= 1;
+                Log.i("Ticket UNDO count ---> ", String.valueOf(count));
+                view.setBackgroundResource(R.drawable.ticket_number_done);
+                ids.remove((Integer) view.getId());
+                TextView item = (TextView) view;
+                item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
             }
         }
     }

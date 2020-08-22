@@ -34,12 +34,12 @@
             android:focusable="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_toLeftOf="@+id/empty_view">
+            android:layout_toLeftOf="@+id/empty_view1">
 
             <ImageView
                 android:layout_width="30sp"
                 android:layout_height="30sp"
-                android:src="@drawable/ic_renew_24"
+                android:src="@drawable/ic_new_24"
                 android:layout_gravity="center"
                 android:layout_margin="5sp"
                 android:id="@+id/img_new"
@@ -60,10 +60,10 @@
         </LinearLayout>
 
         <View
-            android:layout_width="64sp"
+            android:layout_width="40sp"
             android:layout_height="0dp"
-            android:id="@+id/empty_view"
-            android:layout_centerInParent="true" />
+            android:id="@+id/empty_view1"
+            android:layout_toLeftOf="@+id/change_pen_layout" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             android:focusable="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:layout_toEndOf="@+id/empty_view">
+            android:layout_centerInParent="true">
 
             <ImageView
                 android:layout_width="30sp"
@@ -96,6 +96,48 @@
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textColor="#fff"
                 android:textStyle="bold"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="40sp"
+            android:layout_height="0dp"
+            android:id="@+id/empty_view2"
+            android:layout_toRightOf="@+id/change_pen_layout" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/undo_layout"
+            android:background="@drawable/ticket_layout"
+            android:layout_margin="4sp"
+            android:padding="5sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_toEndOf="@+id/empty_view2">
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:src="@drawable/ic_undo_24"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:id="@+id/img_undo"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/undo"
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:text="Undo"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:textAppearance="?android:textAppearanceLarge"
                 android:clickable="false" />
 
         </LinearLayout>

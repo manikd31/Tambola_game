@@ -62,573 +62,644 @@
         android:layout_below="@+id/header" />
 
     <LinearLayout
-        android:layout_below="@+id/head_bar"
-        android:background="@drawable/ticket_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5sp"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12sp">
+        android:orientation="horizontal"
+        android:layout_below="@+id/head_bar">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="12sp"
-            android:layout_margin="5sp"
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:layout_margin="8sp"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal">
+
+            <LinearLayout
+                android:background="@drawable/ticket_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5sp"
+                android:orientation="vertical"
+                android:layout_margin="12sp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="12sp"
+                    android:layout_margin="5sp"
+                    android:background="@drawable/blank" />
+
+                <LinearLayout
+                    android:layout_margin="5sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+                    <!--            android:background="@drawable/ticket_layout">-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:id="@+id/t1a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t2a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="11"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t3a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="21"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t4a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="31"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t5a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="41"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t6a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="51"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t7a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="61"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t8a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="71"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t9a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="81"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="5sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+                    <!--            android:background="@drawable/ticket_layout">-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:id="@+id/t1b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t2b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="11"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t3b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="21"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t4b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="31"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t5b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="41"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t6b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="51"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t7b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="61"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t8b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="71"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t9b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="81"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="5sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+                    <!--            android:background="@drawable/ticket_layout">-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:id="@+id/t1c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t2c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="11"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t3c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="21"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t4c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="31"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t5c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="41"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t6c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="51"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t7c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="61"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t8c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="71"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <EditText
+                        android:textColor="#eaeaea"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"
+                        android:textStyle="bold"
+                        android:id="@+id/t9c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="81"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <View
+            android:layout_width="4sp"
+            android:layout_height="match_parent"
+            android:layout_margin="6sp"
             android:background="@drawable/blank" />
 
         <LinearLayout
-            android:layout_margin="5sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
-            <!--            android:background="@drawable/ticket_layout">-->
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_margin="4sp">
 
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:id="@+id/t1a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="1"
-                android:textSize="24sp"
+            <TextView
+                android:layout_marginTop="8sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ERROR"
                 android:textStyle="bold"
-                android:layout_gravity="center"
+                android:textSize="28sp"
                 android:gravity="center"
-                android:background="@drawable/ticket_number_undone"/>
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:layout_marginBottom="8sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="(highlighted)"
+                android:textStyle="normal"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@android:color/white" />
 
             <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="4sp"-->
+            <!--                android:background="@drawable/blank"-->
+            <!--                android:layout_margin="4sp"/>-->
 
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t2a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="11"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t3a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="21"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t4a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="31"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t5a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="41"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t6a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="51"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t7a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="61"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t8a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="71"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t9a"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="81"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_margin="5sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
-            <!--            android:background="@drawable/ticket_layout">-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:id="@+id/t1b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="1"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t2b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="11"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t3b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="21"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t4b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="31"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t5b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="41"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t6b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="51"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t7b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="61"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t8b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="71"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t9b"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="81"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_margin="5sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal">
-            <!--            android:background="@drawable/ticket_layout">-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:id="@+id/t1c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="1"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t2c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="11"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t3c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="21"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t4c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="31"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t5c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="41"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t6c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="51"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t7c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="61"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t8c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="71"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
-
-            <!--            <View-->
-            <!--                android:layout_width="2dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:background="#000" />-->
-
-            <EditText
-                android:textColor="#eaeaea"
-                android:inputType="number"
-                android:imeOptions="actionDone"
-                android:textStyle="bold"
-                android:id="@+id/t9c"
-                android:layout_margin="5sp"
-                android:layout_width="64sp"
-                android:layout_height="64sp"
-                tools:text="81"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:background="@drawable/ticket_number_undone"/>
+            <TextView
+                android:id="@+id/error_msg"
+                android:layout_margin="12sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="normal"
+                android:background="@drawable/error_box"
+                android:hint="Error Message Displayed Here"
+                android:textColorHint="#44ffffff"
+                android:textSize="20sp"
+                android:gravity="center_horizontal"
+                android:padding="12sp"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
