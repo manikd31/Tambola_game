@@ -1,18 +1,22 @@
 package com.example.tambolahome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -22,13 +26,17 @@ public class TicketList extends AppCompatActivity {
 
     NumberGenerator numgen = new NumberGenerator();
 
+    LinearLayout ll1, ll2, ll3, ll4, ll5, ll6;
+    TextView tick1, tick2, tick3, tick4, tick5, tick6;
+
     List<List<List<Integer>>> nums;
 
     LinearLayout t1, t2, t3, t4, t5, t6;
     TextView t_num;
-    FloatingActionButton play;
+    ImageView refresh, home, goBack;
+    ExtendedFloatingActionButton play;
 
-    int selected = 1;
+    int selected = 0;
 
     List<TextView> t1r1 = new ArrayList<TextView>();
     List<TextView> t1r2 = new ArrayList<TextView>();
@@ -279,10 +287,129 @@ public class TicketList extends AppCompatActivity {
         tt6.add(t6r3);
     }
 
+    boolean sel1, sel2, sel3, sel4, sel5, sel6;
+
+    List<LinearLayout> lls = new ArrayList<LinearLayout>();
+    List<TextView> ticks = new ArrayList<TextView>();
+
+    public void changeSelected(List<LinearLayout> lls, LinearLayout ll, TextView tick) {
+        for (LinearLayout layout : lls) {
+            layout.setBackgroundResource(R.drawable.ticket_unselected);
+        }
+        for (TextView tv : ticks) {
+            tv.setBackgroundResource(R.drawable.ticket_unselected);
+        }
+        tick.setBackgroundResource(R.drawable.ticket_selected);
+        ll.setBackgroundResource(R.drawable.ticket_selected);
+    }
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tickets);
+
+        refresh = findViewById(R.id.refresh_tickets);
+        home = findViewById(R.id.go_home);
+        goBack = findViewById(R.id.go_back);
+
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(TicketList.this);
+                b.setMessage("Unsaved changes will be lost. Confirm?");
+                b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        TicketList.super.onBackPressed();
+                    }
+                });
+                b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog d = b.create();
+                d.show();
+            }
+        });
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(TicketList.this);
+                b.setMessage("Refresh all tickets? All tickets will be changed randomly.");
+                b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent restart = getIntent();
+                        finish();
+                        startActivity(restart);
+                    }
+                });
+                b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog d = b.create();
+                d.show();
+            }
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(TicketList.this);
+                b.setMessage("Go back to home page? Unsaved changes will be lost.");
+                b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent home = new Intent(TicketList.this, HomePage.class);
+                        startActivity(home);
+                    }
+                });
+                b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                AlertDialog d = b.create();
+                d.show();
+            }
+        });
+
+        ll1 = findViewById(R.id.ll1);
+        ll2 = findViewById(R.id.ll2);
+        ll3 = findViewById(R.id.ll3);
+        ll4 = findViewById(R.id.ll4);
+        ll5 = findViewById(R.id.ll5);
+        ll6 = findViewById(R.id.ll6);
+
+        lls.add(ll1);
+        lls.add(ll2);
+        lls.add(ll3);
+        lls.add(ll4);
+        lls.add(ll5);
+        lls.add(ll6);
+
+        tick1 = findViewById(R.id.tick1);
+        tick2 = findViewById(R.id.tick2);
+        tick3 = findViewById(R.id.tick3);
+        tick4 = findViewById(R.id.tick4);
+        tick5 = findViewById(R.id.tick5);
+        tick6 = findViewById(R.id.tick6);
+
+        ticks.add(tick1);
+        ticks.add(tick2);
+        ticks.add(tick3);
+        ticks.add(tick4);
+        ticks.add(tick5);
+        ticks.add(tick6);
 
         t1 = findViewById(R.id.ticket_1);
         t2 = findViewById(R.id.ticket_2);
@@ -290,6 +417,13 @@ public class TicketList extends AppCompatActivity {
         t4 = findViewById(R.id.ticket_4);
         t5 = findViewById(R.id.ticket_5);
         t6 = findViewById(R.id.ticket_6);
+
+        sel1 = false;
+        sel2 = false;
+        sel3 = false;
+        sel4 = false;
+        sel5 = false;
+        sel6 = false;
 
         t_num = findViewById(R.id.ticket_display);
 
@@ -299,6 +433,7 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 t_num.setText("Ticket 1");
+                changeSelected(lls, ll1, tick1);
                 selected = 1;
             }
         });
@@ -307,6 +442,7 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 t_num.setText("Ticket 2");
+                changeSelected(lls, ll2, tick2);
                 selected = 2;
             }
         });
@@ -315,6 +451,7 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 t_num.setText("Ticket 3");
+                changeSelected(lls, ll3, tick3);
                 selected = 3;
             }
         });
@@ -323,7 +460,8 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 t_num.setText("Ticket 4");
-                 selected = 4;
+                changeSelected(lls, ll4, tick4);
+                selected = 4;
             }
         });
 
@@ -331,6 +469,7 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 t_num.setText("Ticket 5");
+                changeSelected(lls, ll5, tick5);
                 selected = 5;
             }
         });
@@ -339,6 +478,7 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 t_num.setText("Ticket 6");
+                changeSelected(lls, ll6, tick6);
                 selected = 6;
             }
         });
@@ -348,26 +488,45 @@ public class TicketList extends AppCompatActivity {
             public void onClick(View view) {
                 String toast = "";
                 switch (selected) {
-                    case 1: toast = "Playing with ticket 1";
-                            break;
-                    case 2: toast = "Playing with ticket 2";
+                    case 0:
+                        AlertDialog.Builder b = new AlertDialog.Builder(TicketList.this);
+                        b.setMessage("Select (at least) one ticket to play with");
+                        b.setPositiveButton("Got it!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        AlertDialog d = b.create();
+                        d.show();
                         break;
-                    case 3: toast = "Playing with ticket 3";
+                    case 1:
+                        toast = "Playing with ticket 1";
                         break;
-                    case 4: toast = "Playing with ticket 4";
+                    case 2:
+                        toast = "Playing with ticket 2";
                         break;
-                    case 5: toast = "Playing with ticket 5";
+                    case 3:
+                        toast = "Playing with ticket 3";
                         break;
-                    case 6: toast = "Playing with ticket 6";
+                    case 4:
+                        toast = "Playing with ticket 4";
+                        break;
+                    case 5:
+                        toast = "Playing with ticket 5";
+                        break;
+                    case 6:
+                        toast = "Playing with ticket 6";
                         break;
                 }
-                Toast.makeText(TicketList.this, toast, Toast.LENGTH_SHORT).show();
-
-                Intent igame = new Intent(TicketList.this, MainActivity.class);
-                igame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected-1).get(0));
-                igame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected-1).get(1));
-                igame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected-1).get(2));
-                startActivity(igame);
+                if (selected != 0) {
+                    Toast.makeText(TicketList.this, toast, Toast.LENGTH_SHORT).show();
+                    Intent igame = new Intent(TicketList.this, MainActivity.class);
+                    igame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected - 1).get(0));
+                    igame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected - 1).get(1));
+                    igame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected - 1).get(2));
+                    startActivity(igame);
+                }
             }
         });
 
@@ -407,5 +566,26 @@ public class TicketList extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder b = new AlertDialog.Builder(TicketList.this);
+        b.setMessage("Unsaved changes will be lost. Go back?");
+        b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                TicketList.super.onBackPressed();
+            }
+        });
+        b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog d = b.create();
+        d.show();
     }
 }

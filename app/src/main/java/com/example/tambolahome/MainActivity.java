@@ -95,9 +95,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    LinearLayout changePen, newGame, goHome;
-
-    ImageView imgpen, imgnew;
+    LinearLayout changePen, newGame;
+    ImageView imgpen, imgnew, goHome, goBack;
 
 //    int pen = 0;
 
@@ -135,6 +134,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changePen = findViewById(R.id.change_pen_layout);
         newGame = findViewById(R.id.new_game_layout);
         goHome = findViewById(R.id.home_layout);
+        goBack = findViewById(R.id.go_back);
+
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                b.setTitle("You will lose any unsaved changes. Confirm?");
+                b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MainActivity.super.onBackPressed();
+                    }
+                });
+                b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog d = b.create();
+                d.show();
+            }
+        });
 
         imgpen = findViewById(R.id.img_pen);
         imgnew = findViewById(R.id.img_new);
@@ -190,8 +212,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent ihome = new Intent(MainActivity.this, HomePage.class);
-                        startActivity(ihome);
+                        Intent iHome = new Intent(MainActivity.this, HomePage.class);
+                        startActivity(iHome);
                     }
                 });
                 b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -239,8 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent ihome = new Intent(MainActivity.this, HomePage.class);
-                startActivity(ihome);
+                MainActivity.super.onBackPressed();
             }
         });
         b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -276,6 +297,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AlertDialog.Builder b = new AlertDialog.Builder(this);
                 b.setTitle("Congratulations!");
                 b.setMessage("You got a Full House");
+                b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
                 AlertDialog d = b.create();
                 d.show();
             }

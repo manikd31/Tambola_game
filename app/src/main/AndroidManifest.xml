@@ -9,23 +9,36 @@
         android:roundIcon="@drawable/tambola_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomePage"
-            android:screenOrientation="portrait">
+        <activity
+            android:name=".HomePage"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".TicketList"
-            android:screenOrientation="sensor"
-            android:configChanges="orientation|screenSize"/>
-        <activity android:name=".HomeActivity"
-            android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".HowToPlay"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ChooseTicketType"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".TicketList"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".HowToPlay"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize" />
     </application>
 
 </manifest>

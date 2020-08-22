@@ -6,86 +6,101 @@
     android:id="@+id/home_layout">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-<!--        <ImageView-->
-<!--            android:layout_width="300sp"-->
-<!--            android:layout_height="300sp"-->
-<!--            android:layout_margin="24sp"-->
-<!--            android:src="@drawable/tambola_3" />-->
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:foregroundGravity="center">
 
         <RelativeLayout
             android:layout_width="350sp"
-            android:layout_height="350sp">
+            android:layout_height="350sp"
+            android:id="@+id/app_logo">
 
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/bg"/>
+                android:src="@drawable/bg" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/tambola_basic"/>
+                android:src="@drawable/tambola_basic" />
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="10sp"
+            android:layout_height="match_parent" />
+
         <LinearLayout
-            android:layout_width="300sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:padding="10sp">
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/new_game"
-                android:text="New Game"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:background="@drawable/blank"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_margin="16sp"
-                android:padding="6sp"/>
+            <!--        <ImageView-->
+            <!--            android:layout_width="300sp"-->
+            <!--            android:layout_height="300sp"-->
+            <!--            android:layout_margin="24sp"-->
+            <!--            android:src="@drawable/tambola_3" />-->
 
-            <TextView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="300sp"
                 android:layout_height="wrap_content"
-                android:id="@+id/create_game"
-                android:text="Create Game"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:textSize="28sp"
-                android:textColor="@android:color/white"
-                android:background="@drawable/blank"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_margin="16sp"
-                android:padding="6sp"/>
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:padding="10sp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/how_to"
-                android:text="How to play?"
-                android:gravity="center"
-                android:textSize="24sp"
-                android:textColor="@android:color/white"
-                android:background="@drawable/blank_howto"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackgroundBorderless"
-                android:layout_margin="16sp"
-                android:padding="6sp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/new_game"
+                    android:text="New Game"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textSize="28sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/blank"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_margin="16sp"
+                    android:padding="6sp" />
+
+                <!--            <TextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:id="@+id/create_game"-->
+                <!--                android:text="Create Game"-->
+                <!--                android:textStyle="bold"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textSize="28sp"-->
+                <!--                android:textColor="@android:color/white"-->
+                <!--                android:background="@drawable/blank"-->
+                <!--                android:clickable="true"-->
+                <!--                android:focusable="true"-->
+                <!--                android:foreground="?android:attr/selectableItemBackgroundBorderless"-->
+                <!--                android:layout_margin="16sp"-->
+                <!--                android:padding="6sp"/>-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/how_to"
+                    android:text="How to play?"
+                    android:gravity="center"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/blank_howto"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    android:layout_margin="16sp"
+                    android:padding="6sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

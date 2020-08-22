@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class HowToPlay extends AppCompatActivity {
 
-    LinearLayout goBack;
+    ImageView goBack;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
