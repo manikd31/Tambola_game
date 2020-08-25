@@ -7,6 +7,7 @@
         android:layout_width="40sp"
         android:layout_height="40sp"
         android:src="@drawable/ic_back"
+        android:background="@drawable/back_button_effect"
         android:id="@+id/go_back"
         android:layout_margin="12sp" />
 
@@ -20,14 +21,90 @@
         android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:textSize="36sp"
-        android:gravity="center"/>
+        android:gravity="center" />
 
-    <ImageView
-        android:layout_width="240sp"
-        android:layout_height="240sp"
-        android:src="@drawable/help"
-        android:layout_below="@+id/help_name"
+    <!--    <ImageView-->
+    <!--        android:layout_width="240sp"-->
+    <!--        android:layout_height="240sp"-->
+    <!--        android:src="@drawable/help"-->
+    <!--        android:layout_below="@+id/help_name"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        android:layout_gravity="center" />-->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center" />
+        android:layout_below="@+id/help_name"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sound_button"
+            android:text="Button Click Sound"
+            android:background="@drawable/blank_button_effect"
+            android:textColor="@android:color/white"
+            android:padding="8sp"
+            android:layout_margin="4sp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sound_click"
+            android:text="Ticket Select Sound"
+            android:background="@drawable/howto_button_effect"
+            android:textColor="@android:color/white"
+            android:padding="8sp"
+            android:layout_margin="4sp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sound_back"
+            android:text="Go Back Sound"
+            android:background="@drawable/blank_button_effect"
+            android:textColor="@android:color/white"
+            android:padding="8sp"
+            android:layout_margin="4sp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sound_win"
+            android:text="Winning Sound"
+            android:background="@drawable/howto_button_effect"
+            android:textColor="@android:color/white"
+            android:padding="8sp"
+            android:layout_margin="4sp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sound_cheer"
+            android:text="Winning Cheer Sound"
+            android:background="@drawable/blank_button_effect"
+            android:textColor="@android:color/white"
+            android:padding="8sp"
+            android:layout_margin="4sp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sound_error"
+            android:text="Error Sound"
+            android:background="@drawable/howto_button_effect"
+            android:textColor="@android:color/white"
+            android:padding="8sp"
+            android:layout_margin="4sp"
+            android:textSize="20sp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

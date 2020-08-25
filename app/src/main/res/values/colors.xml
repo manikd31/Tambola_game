@@ -14,7 +14,7 @@
 <!--    <color name="gradientEnd">#9cedff</color>-->
 <!--    <color name="gradientEnd">#ffe18a</color>-->
     <color name="gradientStart">#272929</color>
-    <color name="gradientCenter">#272929</color>
+    <color name="gradientCenter">#494b4b</color>
     <color name="gradientEnd">#272929</color>
 
     <color name="logoRed">#d53933</color>

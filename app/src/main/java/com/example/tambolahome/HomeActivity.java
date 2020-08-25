@@ -2,6 +2,8 @@ package com.example.tambolahome;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -22,6 +24,9 @@ public class HomeActivity extends AppCompatActivity {
 
     ExtendedFloatingActionButton done;
     TextView errorView;
+
+    SoundPool soundPool;
+    int buttonSound, backSound, errorSound, correctSound;
 
     List<List<Integer>> tt = new ArrayList<List<Integer>>();
     ImageView goBack;
@@ -117,15 +122,22 @@ public class HomeActivity extends AppCompatActivity {
                     numsInRow += 1;
                 }
             }
-            if (numsInRow > 5) {
-                String errorMsg = "Row " + r + " contains more than 5 numbers.";
+            if (numsInRow == 0) {
+                String errorMsg = "Row " + (r + 1) + " cannot be empty.";
+                errorView.setText(errorMsg);
+                for (int c = 0; c < 9; c++) {
+                    tv.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_error);
+                }
+                return false;
+            } else if (numsInRow > 5) {
+                String errorMsg = "Row " + (r + 1) + " contains more than 5 numbers.";
                 errorView.setText(errorMsg);
                 for (int c = 0; c < 9; c++) {
                     tv.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                 }
                 return false;
             } else if (numsInRow < 5) {
-                String errorMsg = "Row " + r + " contains less than 5 numbers.";
+                String errorMsg = "Row " + (r + 1) + " contains less than 5 numbers.";
                 errorView.setText(errorMsg);
                 for (int c = 0; c < 9; c++) {
                     tv.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -141,7 +153,7 @@ public class HomeActivity extends AppCompatActivity {
             int num2 = tt.get(1).get(c);
             int num3 = tt.get(2).get(c);
             if (num1 == 0 && num2 == 0 && num3 == 0) {
-                String errorMsg = "Column Error. Empty Column " + c;
+                String errorMsg = "Column " + (c + 1) + " cannot be empty.";
                 errorView.setText(errorMsg);
                 for (int i = 0; i < 3; i++) {
                     tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -154,21 +166,21 @@ public class HomeActivity extends AppCompatActivity {
                 int minRange = 1;
                 int maxRange = 9;
                 if (num1 != 0 && (num1 > maxRange || num1 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num1 + " in column " + c;
+                    String errorMsg = "Number " + num1 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num2 != 0 && (num2 > maxRange || num2 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num2 + " in column " + c;
+                    String errorMsg = "Number " + num2 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num3 != 0 && (num3 > maxRange || num3 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num3 + " in column " + c;
+                    String errorMsg = "Number " + num3 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -179,21 +191,21 @@ public class HomeActivity extends AppCompatActivity {
                 int minRange = 80;
                 int maxRange = 90;
                 if (num1 != 0 && (num1 > maxRange || num1 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num1 + " in column " + c;
+                    String errorMsg = "Number " + num1 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num2 != 0 && (num2 > maxRange || num2 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num2 + " in column " + c;
+                    String errorMsg = "Number " + num2 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num3 != 0 && (num3 > maxRange || num3 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num3 + " in column " + c;
+                    String errorMsg = "Number " + num3 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -204,21 +216,21 @@ public class HomeActivity extends AppCompatActivity {
                 int minRange = c * 10;
                 int maxRange = minRange + 9;
                 if (num1 != 0 && (num1 > maxRange || num1 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num1 + " in column " + c;
+                    String errorMsg = "Number " + num1 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num2 != 0 && (num2 > maxRange || num2 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num2 + " in column " + c;
+                    String errorMsg = "Number " + num2 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num3 != 0 && (num3 > maxRange || num3 < minRange)) {
-                    String errorMsg = "Number out of range. Number " + num3 + " in column " + c;
+                    String errorMsg = "Number " + num3 + " in column " + (c + 1) + " should be between " + minRange + "-" + maxRange + ".";
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -230,32 +242,32 @@ public class HomeActivity extends AppCompatActivity {
 //            Finally, to check if the numbers are sorted in each column...
             if (num1 != 0 && num2 != 0 && num3 != 0) {
                 if (num1 == num2 && num2 == num3) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     }
                     return false;
                 } else if (num1 == num2) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     tv.get(0).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     tv.get(1).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     return false;
                 } else if (num2 == num3) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     tv.get(1).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     tv.get(2).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     return false;
                 } else if (num1 == num3) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     tv.get(0).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     tv.get(2).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     return false;
                 } else if (num1 > num2 || num2 > num3) {
-                    String errorMsg = "Numbers are not sorted in column " + c;
+                    String errorMsg = "Numbers are not sorted in column " + (c + 1);
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -264,13 +276,13 @@ public class HomeActivity extends AppCompatActivity {
                 }
             } else if (num1 == 0 && num2 != 0 && num3 != 0) {
                 if (num2 == num3) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     tv.get(1).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     tv.get(2).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     return false;
                 } else if (num2 > num3) {
-                    String errorMsg = "Numbers are not sorted in column " + c;
+                    String errorMsg = "Numbers are not sorted in column " + (c + 1);
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -279,13 +291,13 @@ public class HomeActivity extends AppCompatActivity {
                 }
             } else if (num2 == 0 && num1 != 0 && num3 != 0) {
                 if (num1 == num3) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     tv.get(0).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     tv.get(2).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     return false;
                 } else if (num1 > num3) {
-                    String errorMsg = "Numbers are not sorted in column " + c;
+                    String errorMsg = "Numbers are not sorted in column " + (c + 1);
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -294,13 +306,13 @@ public class HomeActivity extends AppCompatActivity {
                 }
             } else if (num3 == 0 && num1 != 0 && num2 != 0) {
                 if (num1 == num2) {
-                    String errorMsg = "Duplicate numbers in column " + c;
+                    String errorMsg = "Duplicate numbers in column " + (c + 1);
                     errorView.setText(errorMsg);
                     tv.get(0).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     tv.get(1).get(c).setBackgroundResource(R.drawable.ticket_number_error);
                     return false;
                 } else if (num1 > num2) {
-                    String errorMsg = "Numbers are not sorted in column " + c;
+                    String errorMsg = "Numbers are not sorted in column " + (c + 1);
                     errorView.setText(errorMsg);
                     for (int i = 0; i < 3; i++) {
                         tv.get(i).get(c).setBackgroundResource(R.drawable.ticket_number_error);
@@ -317,6 +329,21 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(5)
+                .build();
+
+        backSound = soundPool.load(this, R.raw.back_sound, 1);
+        buttonSound = soundPool.load(this, R.raw.simple_error_sound, 1);
+        errorSound = soundPool.load(this, R.raw.wooden_error_sound, 1);
+        correctSound = soundPool.load(this, R.raw.win_sound, 1);
+
         initTicket();
 
         done = findViewById(R.id.done);
@@ -326,13 +353,15 @@ public class HomeActivity extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HomeActivity.super.onBackPressed();
+                soundPool.play(backSound, 1, 1, 1, 0, 1);
+                onBackPressed();
             }
         });
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 for (int r = 0; r < 3; r++) {
                     for (int c = 0; c < 9; c++) {
                         tv.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_undone);
@@ -345,6 +374,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         getExtras();
                         if (checkTicket()) {
+                            soundPool.play(correctSound, 1, 1, 1, 0, 1);
                             errorView.setText("");
                             AlertDialog.Builder b1 = new AlertDialog.Builder(HomeActivity.this);
                             b1.setTitle("Awesome!! Let's get to the game.");
@@ -360,6 +390,8 @@ public class HomeActivity extends AppCompatActivity {
                             });
                             AlertDialog d1 = b1.create();
                             d1.show();
+                        } else {
+                            soundPool.play(errorSound, 1, 1, 1, 0, 1);
                         }
                     }
                 });
@@ -382,7 +414,8 @@ public class HomeActivity extends AppCompatActivity {
         b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                HomeActivity.super.onBackPressed();
+                Intent iChoose = new Intent(HomeActivity.this, ChooseTicketType.class);
+                startActivity(iChoose);
             }
         });
         b.setNegativeButton("NO", new DialogInterface.OnClickListener() {

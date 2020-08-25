@@ -4,16 +4,18 @@
 
     <size
         android:width="30sp"
-        android:height="30sp"/>
+        android:height="30sp" />
 
-    <!--    <stroke-->
-    <!--        android:color="#bfbfbf"-->
-    <!--        android:width="1dp"/>-->
+    <stroke
+        android:color="#bf006eff"
+        android:width="2sp" />
 
-    <gradient
-        android:type="radial"
-        android:startColor="#aa006eff"
-        android:endColor="#006eff"
-        android:gradientRadius="50%p"/>
+    <solid android:color="#bf006eff" />
+
+    <!--    <gradient-->
+    <!--        android:type="radial"-->
+    <!--        android:startColor="#55f4f4f4"-->
+    <!--        android:endColor="#aafafafa"-->
+    <!--        android:gradientRadius="50%p"/>-->
 
 </shape>

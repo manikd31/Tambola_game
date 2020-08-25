@@ -18,6 +18,7 @@
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:src="@drawable/ic_back"
+            android:background="@drawable/back_button_effect"
             android:id="@+id/go_back"
             android:layout_margin="8sp"
             android:layout_centerVertical="true"
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:src="@drawable/ic_baseline_home_24"
-            android:background="@drawable/ticket_number_undone"
+            android:background="@drawable/ticket_number_undone_effect"
             android:layout_centerVertical="true"
             android:id="@+id/go_home"
             android:layout_margin="8sp"
@@ -49,7 +50,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="4sp"
-        android:background="@drawable/blank"
+        android:background="@drawable/blank_button"
         android:layout_below="@+id/header"
         android:id="@+id/head_bar"
         android:layout_margin="8sp" />

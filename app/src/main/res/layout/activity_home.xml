@@ -20,6 +20,7 @@
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:src="@drawable/ic_back"
+            android:background="@drawable/back_button_effect"
             android:id="@+id/go_back"
             android:layout_margin="8sp"
             android:layout_centerVertical="true"
@@ -45,7 +46,6 @@
             android:id="@+id/done"
             app:icon="@drawable/ic_baseline_check_24"
             android:text="Done"
-            android:backgroundTint="@color/colorAccent"
             android:layout_centerInParent="true"
             android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
@@ -58,28 +58,30 @@
         android:layout_height="4sp"
         android:id="@+id/head_bar"
         android:layout_margin="10sp"
-        android:background="@drawable/blank"
+        android:background="@drawable/blank_button"
         android:layout_below="@+id/header" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/head_bar">
+        android:layout_below="@+id/head_bar"
+        android:gravity="center">
 
         <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
             android:layout_margin="8sp"
-            android:layout_gravity="center_horizontal"
-            android:foregroundGravity="center_horizontal">
+            android:layout_gravity="center">
 
             <LinearLayout
                 android:background="@drawable/ticket_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5sp"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="vertical"
                 android:layout_margin="12sp">
 
@@ -652,7 +654,7 @@
             android:layout_width="4sp"
             android:layout_height="match_parent"
             android:layout_margin="6sp"
-            android:background="@drawable/blank" />
+            android:background="@drawable/blank_button" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -699,7 +701,8 @@
                 android:textSize="20sp"
                 android:gravity="center_horizontal"
                 android:padding="12sp"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="20sp" />
 
         </LinearLayout>
 

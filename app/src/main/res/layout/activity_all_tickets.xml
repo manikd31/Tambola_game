@@ -19,6 +19,7 @@
             android:layout_width="40sp"
             android:layout_height="40sp"
             android:src="@drawable/ic_back"
+            android:background="@drawable/back_button_effect"
             android:id="@+id/go_back"
             android:layout_margin="8sp"
             android:layout_centerVertical="true"
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:src="@drawable/ic_baseline_home_24"
-            android:background="@drawable/ticket_number_undone"
+            android:background="@drawable/ticket_number_undone_effect"
             android:layout_centerVertical="true"
             android:id="@+id/go_home"
             android:layout_margin="8sp"
@@ -54,7 +55,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:src="@drawable/ic_renew_24"
-            android:background="@drawable/ticket_number_undone"
+            android:background="@drawable/ticket_number_undone_effect"
             android:layout_centerVertical="true"
             android:id="@+id/refresh_tickets"
             android:layout_margin="8sp"
@@ -69,7 +70,7 @@
         android:id="@+id/head_bar"
         android:layout_below="@+id/header"
         android:layout_margin="2sp"
-        android:background="@drawable/blank"
+        android:background="@drawable/blank_button"
         android:clickable="false" />
 
     <LinearLayout
@@ -92,7 +93,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8sp"
@@ -567,9 +568,16 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="80sp"
+                        android:layout_height="80sp"
+                        android:id="@+id/ticket1_image"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ticket_check_background_unselected" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8sp"
@@ -1044,9 +1052,16 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="80sp"
+                        android:layout_height="80sp"
+                        android:id="@+id/ticket2_image"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ticket_check_background_unselected" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ll3"
@@ -1522,9 +1537,16 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="80sp"
+                        android:layout_height="80sp"
+                        android:id="@+id/ticket3_image"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ticket_check_background_unselected" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ll4"
@@ -1999,9 +2021,16 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="80sp"
+                        android:layout_height="80sp"
+                        android:id="@+id/ticket4_image"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ticket_check_background_unselected" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ll5"
@@ -2476,9 +2505,16 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="80sp"
+                        android:layout_height="80sp"
+                        android:id="@+id/ticket5_image"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ticket_check_background_unselected" />
 
-                <LinearLayout
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ll6"
@@ -2953,7 +2989,14 @@
 
                     </LinearLayout>
 
-                </LinearLayout>
+                    <ImageView
+                        android:layout_width="80sp"
+                        android:layout_height="80sp"
+                        android:id="@+id/ticket6_image"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ticket_check_background_unselected" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -2963,7 +3006,7 @@
             android:layout_width="4sp"
             android:layout_height="match_parent"
             android:layout_margin="6sp"
-            android:background="@drawable/blank" />
+            android:background="@drawable/blank_button" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -8,14 +8,4 @@
     <solid
         android:color="#171919"/>
 
-    <!--    <stroke-->
-    <!--        android:color="#bfbfbf"-->
-    <!--        android:width="1dp"/>-->
-
-    <!--    <gradient-->
-    <!--        android:type="radial"-->
-    <!--        android:startColor="#55eaeaea"-->
-    <!--        android:endColor="#ffdfdfdf"-->
-    <!--        android:gradientRadius="500%p"/>-->
-
 </shape>

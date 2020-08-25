@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioAttributes;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,8 +27,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +42,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<List<TextView>> tt = new ArrayList<List<TextView>>();
 
     List<List<Integer>> nums = new ArrayList<List<Integer>>();
+
+    List<TextView> boardNums;
+
+    public void initBoard(View board) {
+        boardNums = new ArrayList<TextView>();
+
+        boardNums.add((TextView) board.findViewById(R.id.num1));
+        boardNums.add((TextView) board.findViewById(R.id.num2));
+        boardNums.add((TextView) board.findViewById(R.id.num3));
+        boardNums.add((TextView) board.findViewById(R.id.num4));
+        boardNums.add((TextView) board.findViewById(R.id.num5));
+        boardNums.add((TextView) board.findViewById(R.id.num6));
+        boardNums.add((TextView) board.findViewById(R.id.num7));
+        boardNums.add((TextView) board.findViewById(R.id.num8));
+        boardNums.add((TextView) board.findViewById(R.id.num9));
+        boardNums.add((TextView) board.findViewById(R.id.num10));
+        boardNums.add((TextView) board.findViewById(R.id.num11));
+        boardNums.add((TextView) board.findViewById(R.id.num12));
+        boardNums.add((TextView) board.findViewById(R.id.num13));
+        boardNums.add((TextView) board.findViewById(R.id.num14));
+        boardNums.add((TextView) board.findViewById(R.id.num15));
+        boardNums.add((TextView) board.findViewById(R.id.num16));
+        boardNums.add((TextView) board.findViewById(R.id.num17));
+        boardNums.add((TextView) board.findViewById(R.id.num18));
+        boardNums.add((TextView) board.findViewById(R.id.num19));
+        boardNums.add((TextView) board.findViewById(R.id.num20));
+        boardNums.add((TextView) board.findViewById(R.id.num21));
+        boardNums.add((TextView) board.findViewById(R.id.num22));
+        boardNums.add((TextView) board.findViewById(R.id.num23));
+        boardNums.add((TextView) board.findViewById(R.id.num24));
+        boardNums.add((TextView) board.findViewById(R.id.num25));
+        boardNums.add((TextView) board.findViewById(R.id.num26));
+        boardNums.add((TextView) board.findViewById(R.id.num27));
+        boardNums.add((TextView) board.findViewById(R.id.num28));
+        boardNums.add((TextView) board.findViewById(R.id.num29));
+        boardNums.add((TextView) board.findViewById(R.id.num30));
+        boardNums.add((TextView) board.findViewById(R.id.num31));
+        boardNums.add((TextView) board.findViewById(R.id.num32));
+        boardNums.add((TextView) board.findViewById(R.id.num33));
+        boardNums.add((TextView) board.findViewById(R.id.num34));
+        boardNums.add((TextView) board.findViewById(R.id.num35));
+        boardNums.add((TextView) board.findViewById(R.id.num36));
+        boardNums.add((TextView) board.findViewById(R.id.num37));
+        boardNums.add((TextView) board.findViewById(R.id.num38));
+        boardNums.add((TextView) board.findViewById(R.id.num39));
+        boardNums.add((TextView) board.findViewById(R.id.num40));
+        boardNums.add((TextView) board.findViewById(R.id.num41));
+        boardNums.add((TextView) board.findViewById(R.id.num42));
+        boardNums.add((TextView) board.findViewById(R.id.num43));
+        boardNums.add((TextView) board.findViewById(R.id.num44));
+        boardNums.add((TextView) board.findViewById(R.id.num45));
+        boardNums.add((TextView) board.findViewById(R.id.num46));
+        boardNums.add((TextView) board.findViewById(R.id.num47));
+        boardNums.add((TextView) board.findViewById(R.id.num48));
+        boardNums.add((TextView) board.findViewById(R.id.num49));
+        boardNums.add((TextView) board.findViewById(R.id.num50));
+        boardNums.add((TextView) board.findViewById(R.id.num51));
+        boardNums.add((TextView) board.findViewById(R.id.num52));
+        boardNums.add((TextView) board.findViewById(R.id.num53));
+        boardNums.add((TextView) board.findViewById(R.id.num54));
+        boardNums.add((TextView) board.findViewById(R.id.num55));
+        boardNums.add((TextView) board.findViewById(R.id.num56));
+        boardNums.add((TextView) board.findViewById(R.id.num57));
+        boardNums.add((TextView) board.findViewById(R.id.num58));
+        boardNums.add((TextView) board.findViewById(R.id.num59));
+        boardNums.add((TextView) board.findViewById(R.id.num60));
+        boardNums.add((TextView) board.findViewById(R.id.num61));
+        boardNums.add((TextView) board.findViewById(R.id.num62));
+        boardNums.add((TextView) board.findViewById(R.id.num63));
+        boardNums.add((TextView) board.findViewById(R.id.num64));
+        boardNums.add((TextView) board.findViewById(R.id.num65));
+        boardNums.add((TextView) board.findViewById(R.id.num66));
+        boardNums.add((TextView) board.findViewById(R.id.num67));
+        boardNums.add((TextView) board.findViewById(R.id.num68));
+        boardNums.add((TextView) board.findViewById(R.id.num69));
+        boardNums.add((TextView) board.findViewById(R.id.num70));
+        boardNums.add((TextView) board.findViewById(R.id.num71));
+        boardNums.add((TextView) board.findViewById(R.id.num72));
+        boardNums.add((TextView) board.findViewById(R.id.num73));
+        boardNums.add((TextView) board.findViewById(R.id.num74));
+        boardNums.add((TextView) board.findViewById(R.id.num75));
+        boardNums.add((TextView) board.findViewById(R.id.num76));
+        boardNums.add((TextView) board.findViewById(R.id.num77));
+        boardNums.add((TextView) board.findViewById(R.id.num78));
+        boardNums.add((TextView) board.findViewById(R.id.num79));
+        boardNums.add((TextView) board.findViewById(R.id.num80));
+        boardNums.add((TextView) board.findViewById(R.id.num81));
+        boardNums.add((TextView) board.findViewById(R.id.num82));
+        boardNums.add((TextView) board.findViewById(R.id.num83));
+        boardNums.add((TextView) board.findViewById(R.id.num84));
+        boardNums.add((TextView) board.findViewById(R.id.num85));
+        boardNums.add((TextView) board.findViewById(R.id.num86));
+        boardNums.add((TextView) board.findViewById(R.id.num87));
+        boardNums.add((TextView) board.findViewById(R.id.num88));
+        boardNums.add((TextView) board.findViewById(R.id.num89));
+        boardNums.add((TextView) board.findViewById(R.id.num90));
+
+        for (int i = 0; i < 90; i++) {
+            boardNums.get(i).setBackgroundResource(R.drawable.number_circle_undone);
+        }
+    }
 
     public void initTicket() {
 
@@ -88,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String n = String.valueOf(num);
                     tt.get(r).get(c).setText(n);
                     tt.get(r).get(c).setClickable(true);
-                    tt.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_done);
+                    tt.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_effect);
                 } else {
                     tt.get(r).get(c).setClickable(false);
                     tt.get(r).get(c).setBackgroundResource(R.drawable.ticket_number_undone);
@@ -97,24 +203,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    LinearLayout changePen, newGame, undo;
-    TextView undoText;
+    LinearLayout changePen, newGame, undo, gameBoard;
+    TextView undoText, numberGen;
+    ExtendedFloatingActionButton pickNumber;
     ImageView imgpen, imgnew, goHome, goBack, undoImg;
-
-//    int pen = 0;
+    SoundPool soundPool;
 
     int stroke = 0;
     boolean showAgain;
     boolean undoClicked;
     int count;
+    boolean[] numsDone;
+    Random random = new Random();
+
+    int buttonSound, backSound, clickSound, errorSound, winSound, cheerSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AudioAttributes attr = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)
+                .setMaxStreams(5)
+                .build();
+
+        buttonSound = soundPool.load(this, R.raw.simple_error_sound, 1);
+        backSound = soundPool.load(this, R.raw.back_sound, 1);
+        clickSound = soundPool.load(this, R.raw.short_click_sound, 1);
+        errorSound = soundPool.load(this, R.raw.wooden_error_sound, 1);
+        winSound = soundPool.load(this, R.raw.win_sound, 1);
+        cheerSound = soundPool.load(this, R.raw.cheer_sound, 1);
+
         count = 0;
         showAgain = true;
+        numsDone = new boolean[90];
+        for (int i = 0; i < 90; i++) {
+            numsDone[i] = false;
+        }
         ids = new ArrayList<Integer>();
 
         RelativeLayout layout = findViewById(R.id.game_layout);
@@ -134,7 +265,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nums.add(row3);
 
         initTicket();
-
         makeTicket();
 
         changePen = findViewById(R.id.change_pen_layout);
@@ -142,18 +272,100 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         undo = findViewById(R.id.undo_layout);
         undoImg = findViewById(R.id.img_undo);
         undoText = findViewById(R.id.undo);
+        gameBoard = findViewById(R.id.game_board);
         undoClicked = false;
         goHome = findViewById(R.id.home_layout);
         goBack = findViewById(R.id.go_back);
+        pickNumber = findViewById(R.id.pick_number);
+        numberGen = findViewById(R.id.random_number);
+
+        pickNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = 0;
+                for (int i = 0; i < 90; i++) {
+                    if (numsDone[i]) {
+                        count += 1;
+                    }
+                }
+                if (count == 90) {
+                    soundPool.play(errorSound, 1, 1, 1, 0, 1);
+                    AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                    b.setTitle("Game Over");
+                    b.setMessage("All numbers are picked. Go for a new game.");
+                    b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    AlertDialog d = b.create();
+                    d.show();
+//                    Toast.makeText(MainActivity.this, "All numbers are picked. Go for a new game.", Toast.LENGTH_LONG).show();
+                } else {
+                    soundPool.play(clickSound, 1, 1, 1, 0, 1);
+                    int randomNumber = random.nextInt(90);
+                    while (numsDone[randomNumber]) {
+                        randomNumber = random.nextInt(90);
+                    }
+                    numsDone[randomNumber] = true;
+                    numberGen.setText(String.valueOf(randomNumber + 1));
+                }
+            }
+        });
+
+        gameBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
+                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                b.setTitle("Game Board");
+                View board = getLayoutInflater().inflate(R.layout.game_board, null);
+                initBoard(board);
+                b.setView(board);
+                b.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                b.setNeutralButton("Missing numbers?", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder b1 = new AlertDialog.Builder(MainActivity.this);
+                        b1.setTitle("Can't see some of the numbers?");
+                        b1.setMessage("Scroll down on the Game Board to see all the numbers.");
+                        b1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface1, int i) {
+                                dialogInterface1.dismiss();
+                            }
+                        });
+                        AlertDialog d1 = b1.create();
+                        d1.show();
+                    }
+                });
+                for (int i = 0; i < 90; i++) {
+                    if (numsDone[i]) {
+                        boardNums.get(i).setBackgroundResource(R.drawable.number_circle_done);
+                        boardNums.get(i).setTextColor(getColor(android.R.color.white));
+                    }
+                }
+                AlertDialog d = b.create();
+                d.show();
+            }
+        });
 
         undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 if (!undoClicked) {
                     undoImg.setImageResource(R.drawable.ic_done_white_24);
                     undoText.setText("Done");
                     changePen.setClickable(false);
                     newGame.setClickable(false);
+                    pickNumber.setClickable(false);
                     if (showAgain) {
                         AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
                         b.setTitle("Select the numbers you want to UNDO. Once you're done, click on DONE (top-right of the screen).");
@@ -178,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     undoText.setText("Undo");
                     changePen.setClickable(true);
                     newGame.setClickable(true);
+                    pickNumber.setClickable(true);
                 }
                 undoClicked = !undoClicked;
             }
@@ -186,6 +399,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundPool.play(backSound, 1, 1, 1, 0, 1);
                 AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
                 b.setTitle("You will lose any unsaved changes. Confirm?");
                 b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -223,7 +437,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changePen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 //
                 builder.setTitle("Choose a color");
@@ -254,6 +468,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
                 b.setTitle("You will lose any unsaved changes. Confirm?");
                 b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -278,6 +493,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
                 b.setTitle("Select ticket type");
                 b.setPositiveButton("Random", new DialogInterface.OnClickListener() {
@@ -324,7 +540,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
         Log.i("Ticket VIEW ::: ", "onClick--" + view.getId());
 
         if (!undoClicked) {
@@ -338,15 +553,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     view.setBackgroundResource(stroke);
                     ids.add(view.getId());
                     TextView item = (TextView) view;
-                    item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-
+                    item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
                     if (count == 15) {
+                        soundPool.play(winSound, 1, 1, 1, 0, 1);
+                        final int cheerId = soundPool.play(cheerSound, 0.3f, 0.3f, 1, 0, 1);
                         AlertDialog.Builder b = new AlertDialog.Builder(this);
                         b.setTitle("Congratulations!");
                         b.setMessage("You got a Full House");
                         b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                soundPool.stop(cheerId);
                                 dialogInterface.dismiss();
                             }
                         });
@@ -359,10 +576,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (ids.contains(view.getId())) {
                 count -= 1;
                 Log.i("Ticket UNDO count ---> ", String.valueOf(count));
-                view.setBackgroundResource(R.drawable.ticket_number_done);
+                view.setBackgroundResource(R.drawable.ticket_number_effect);
                 ids.remove((Integer) view.getId());
                 TextView item = (TextView) view;
-                item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+                item.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
             }
         }
     }
