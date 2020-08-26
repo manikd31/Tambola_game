@@ -40,6 +40,8 @@ public class TicketList extends AppCompatActivity {
     ExtendedFloatingActionButton play;
 
     int selected = 0;
+    boolean sel1, sel2, sel3, sel4, sel5, sel6;
+    String role;
 
     List<TextView> t1r1 = new ArrayList<TextView>();
     List<TextView> t1r2 = new ArrayList<TextView>();
@@ -290,8 +292,6 @@ public class TicketList extends AppCompatActivity {
         tt6.add(t6r3);
     }
 
-    boolean sel1, sel2, sel3, sel4, sel5, sel6;
-
     List<LinearLayout> lls = new ArrayList<LinearLayout>();
     List<TextView> ticks = new ArrayList<TextView>();
     List<ImageView> tickImgs = new ArrayList<ImageView>();
@@ -308,7 +308,7 @@ public class TicketList extends AppCompatActivity {
             iv.setBackgroundResource(R.drawable.ticket_check_background_unselected);
         }
         tick.setBackgroundResource(R.drawable.ticket_selected);
-        timg.setImageResource(R.drawable.ic_check_circle_24);
+        timg.setImageResource(R.drawable.ic_done_white_24);
         timg.setBackgroundResource(R.drawable.ticket_check_background_selected);
         ll.setBackgroundResource(R.drawable.ticket_selected_number);
     }
@@ -317,6 +317,9 @@ public class TicketList extends AppCompatActivity {
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tickets);
+
+        Intent iRole = getIntent();
+        role = iRole.getStringExtra("roleType");
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -355,6 +358,7 @@ public class TicketList extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent restart = getIntent();
+                        restart.putExtra("roleType", role);
                         finish();
                         startActivity(restart);
                     }
@@ -556,11 +560,12 @@ public class TicketList extends AppCompatActivity {
                 }
                 if (selected != 0) {
                     Toast.makeText(TicketList.this, toast, Toast.LENGTH_SHORT).show();
-                    Intent igame = new Intent(TicketList.this, MainActivity.class);
-                    igame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected - 1).get(0));
-                    igame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected - 1).get(1));
-                    igame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected - 1).get(2));
-                    startActivity(igame);
+                    Intent iGame = new Intent(TicketList.this, MainActivity.class);
+                    iGame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected - 1).get(0));
+                    iGame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected - 1).get(1));
+                    iGame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected - 1).get(2));
+                    iGame.putExtra("roleType", role);
+                    startActivity(iGame);
                 }
             }
         });
@@ -611,6 +616,7 @@ public class TicketList extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent iChoose = new Intent(TicketList.this, ChooseTicketType.class);
+                iChoose.putExtra("roleType", role);
                 startActivity(iChoose);
             }
         });

@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Ticket Type"
+            android:text="Create Room"
             android:textStyle="bold"
             android:textSize="36sp"
             android:textColor="@android:color/white"
@@ -47,6 +47,91 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head_bar"
+        android:layout_above="@id/done"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:text="Room Name:"
+            android:padding="8sp"
+            android:layout_above="@id/empty_space_horizontal"
+            android:layout_toStartOf="@id/empty_space_vertical"
+            android:gravity="center" />
+
+        <!--        <View-->
+        <!--            android:layout_width="52sp"-->
+        <!--            android:layout_height="0sp" />-->
+
+        <EditText
+            android:layout_width="250sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/room_name_edit"
+            android:hint="(Max. 20 characters)"
+            android:maxLines="1"
+            android:maxLength="20"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:gravity="bottom|start"
+            android:textColorHint="#bdbdbd"
+            android:textColor="#fafafa"
+
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_above="@id/empty_space_horizontal"
+            android:layout_toEndOf="@id/empty_space_vertical" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16sp"
+            android:id="@+id/empty_space_horizontal"
+            android:layout_centerInParent="true" />
+
+        <View
+            android:layout_width="52sp"
+            android:layout_height="match_parent"
+            android:id="@+id/empty_space_vertical"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:text="Password:"
+            android:padding="8sp"
+            android:layout_below="@id/empty_space_horizontal"
+            android:layout_toStartOf="@id/empty_space_vertical" />
+
+        <!--        <View-->
+        <!--            android:layout_width="52sp"-->
+        <!--            android:layout_height="0sp"/>-->
+
+        <EditText
+            android:layout_width="250sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/room_pass_edit"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:hint="(Exactly 4 characters)"
+            android:maxLines="1"
+            android:maxLength="4"
+            android:gravity="top|start"
+            android:textColorHint="#bdbdbd"
+            android:textColor="#fafafa"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_below="@id/empty_space_horizontal"
+            android:layout_toEndOf="@id/empty_space_vertical" />
+
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="4sp"
@@ -54,90 +139,6 @@
         android:layout_below="@+id/header"
         android:id="@+id/head_bar"
         android:layout_margin="8sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/game_role_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/head_bar"
-        android:background="@drawable/blank_effect"
-        android:padding="8sp"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#272929"
-            android:text="You are:"
-            android:paddingStart="16sp"
-            android:paddingEnd="0sp"
-            android:layout_margin="4sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="#272929"
-            android:textStyle="bold"
-            android:text="HOST"
-            android:paddingEnd="16sp"
-            android:paddingStart="0sp"
-            android:layout_margin="4sp"
-            android:id="@+id/game_role" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:background="@drawable/blank_button"
-        android:layout_below="@+id/game_role_layout"
-        android:id="@+id/head_bar2"
-        android:layout_margin="8sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/choose_layout"
-        android:orientation="horizontal"
-        android:layout_below="@+id/head_bar2"
-        android:layout_above="@+id/done">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:id="@+id/random_ticket"
-            android:text="Choose\nRandom\nTicket"
-            android:lineSpacingExtra="4sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_margin="12sp"
-            android:textSize="28sp"
-            android:textColor="@android:color/white" />
-
-        <View
-            android:layout_width="4sp"
-            android:layout_height="match_parent"
-            android:layout_margin="8sp"
-            android:background="@drawable/blank" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:id="@+id/custom_ticket"
-            android:text="Create\nCustom\nTicket"
-            android:lineSpacingExtra="4sp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:layout_margin="12sp"
-            android:textSize="28sp"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="wrap_content"

@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose Ticket Type"
+            android:text="Choose your role"
             android:textStyle="bold"
             android:textSize="36sp"
             android:textColor="@android:color/white"
@@ -56,53 +56,11 @@
         android:layout_margin="8sp" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/game_role_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/head_bar"
-        android:background="@drawable/blank_effect"
-        android:padding="8sp"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#272929"
-            android:text="You are:"
-            android:paddingStart="16sp"
-            android:paddingEnd="0sp"
-            android:layout_margin="4sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="#272929"
-            android:textStyle="bold"
-            android:text="HOST"
-            android:paddingEnd="16sp"
-            android:paddingStart="0sp"
-            android:layout_margin="4sp"
-            android:id="@+id/game_role" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0sp"
-        android:background="@drawable/blank_button"
-        android:layout_below="@+id/game_role_layout"
-        android:id="@+id/head_bar2"
-        android:layout_margin="8sp" />
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/choose_layout"
         android:orientation="horizontal"
-        android:layout_below="@+id/head_bar2"
+        android:layout_below="@+id/head_bar"
         android:layout_above="@+id/done">
 
         <TextView
@@ -110,7 +68,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:id="@+id/random_ticket"
-            android:text="Choose\nRandom\nTicket"
+            android:text="Host\n(Pick Numbers and\nPlay Ticket)"
             android:lineSpacingExtra="4sp"
             android:layout_gravity="center"
             android:gravity="center"
@@ -129,7 +87,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:id="@+id/custom_ticket"
-            android:text="Create\nCustom\nTicket"
+            android:text="Guest\n(Only Play Ticket)"
             android:lineSpacingExtra="4sp"
             android:layout_gravity="center"
             android:gravity="center"

@@ -11,8 +11,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HomePage"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,25 +20,33 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".CreateRoom"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".ChooseRoleType"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity
             android:name=".ChooseTicketType"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".TicketList"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".HowToPlay"
-            android:screenOrientation="sensorLandscape"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensorLandscape" />
     </application>
 
 </manifest>

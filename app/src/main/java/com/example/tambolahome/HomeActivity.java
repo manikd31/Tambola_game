@@ -27,6 +27,8 @@ public class HomeActivity extends AppCompatActivity {
 
     SoundPool soundPool;
     int buttonSound, backSound, errorSound, correctSound;
+    int count;
+    String role;
 
     List<List<Integer>> tt = new ArrayList<List<Integer>>();
     ImageView goBack;
@@ -72,8 +74,6 @@ public class HomeActivity extends AppCompatActivity {
         tv.add(tr2);
         tv.add(tr3);
     }
-
-    int count;
 
     public void getExtras() {
         count = 0;
@@ -345,6 +345,8 @@ public class HomeActivity extends AppCompatActivity {
         correctSound = soundPool.load(this, R.raw.win_sound, 1);
 
         initTicket();
+        Intent iRole = getIntent();
+        role = iRole.getStringExtra("roleType");
 
         done = findViewById(R.id.done);
         goBack = findViewById(R.id.go_back);
@@ -385,6 +387,7 @@ public class HomeActivity extends AppCompatActivity {
                                     iGame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) tt.get(0));
                                     iGame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) tt.get(1));
                                     iGame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) tt.get(2));
+                                    iGame.putExtra("roleType", role);
                                     startActivity(iGame);
                                 }
                             });
@@ -415,6 +418,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent iChoose = new Intent(HomeActivity.this, ChooseTicketType.class);
+                iChoose.putExtra("roleType", role);
                 startActivity(iChoose);
             }
         });

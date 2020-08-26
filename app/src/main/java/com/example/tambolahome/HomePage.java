@@ -104,7 +104,7 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
-                Intent newGame = new Intent(HomePage.this, ChooseTicketType.class);
+                Intent newGame = new Intent(HomePage.this, ChooseRoleType.class);
                 startActivity(newGame);
             }
         });

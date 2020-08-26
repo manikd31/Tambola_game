@@ -203,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    LinearLayout changePen, newGame, undo, gameBoard;
-    TextView undoText, numberGen;
+    LinearLayout changePen, newGame, undo, gameBoard, roomDisplay, hostDisplay, roleDisplay;
+    TextView undoText, numberGen, roleView, passView, hostView;
     ExtendedFloatingActionButton pickNumber;
     ImageView imgpen, imgnew, goHome, goBack, undoImg;
     SoundPool soundPool;
@@ -217,11 +217,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Random random = new Random();
 
     int buttonSound, backSound, clickSound, errorSound, winSound, cheerSound;
+    String roomHost, roomPlayerRole, roomPass;
+
+    private void roomDetailsAlert() {
+        AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+        b.setTitle("Game Room Details");
+        String line1 = "Host : " + roomHost;
+        String line2 = "\nPassword : " + roomPass;
+        String line3 = "\n\n\nYou are: " + roomPlayerRole;
+        b.setMessage(line1 + line2 + line3);
+        b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog d = b.create();
+        d.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        roomPlayerRole = intent.getStringExtra("roleType");
+        List<Integer> row1 = intent.getIntegerArrayListExtra("row1");
+        List<Integer> row2 = intent.getIntegerArrayListExtra("row2");
+        List<Integer> row3 = intent.getIntegerArrayListExtra("row3");
+
+        roleView = findViewById(R.id.role_name);
+        passView = findViewById(R.id.room_pass);
+        hostView = findViewById(R.id.host_name);
+
+        roleDisplay = findViewById(R.id.role_display);
+        roomDisplay = findViewById(R.id.room_display);
+        hostDisplay = findViewById(R.id.host_display);
+
+        roleDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomDetailsAlert();
+            }
+        });
+
+        roomDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomDetailsAlert();
+            }
+        });
+
+        hostDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                roomDetailsAlert();
+            }
+        });
+
+        roomPass = "12345";
+        roomHost = "Manik";
+
+        roleView.setText(roomPlayerRole);
+        hostView.setText(roomHost);
+        passView.setText(roomPass);
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -254,12 +314,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         animd.setExitFadeDuration(2500);
         animd.start();
 
-        Intent i = getIntent();
-
-        List<Integer> row1 = i.getIntegerArrayListExtra("row1");
-        List<Integer> row2 = i.getIntegerArrayListExtra("row2");
-        List<Integer> row3 = i.getIntegerArrayListExtra("row3");
-
         nums.add(row1);
         nums.add(row2);
         nums.add(row3);
@@ -278,6 +332,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         goBack = findViewById(R.id.go_back);
         pickNumber = findViewById(R.id.pick_number);
         numberGen = findViewById(R.id.random_number);
+
+        if (roomPlayerRole.equals("GUEST")) {
+            pickNumber.setEnabled(false);
+        } else {
+            pickNumber.setEnabled(true);
+        }
 
         pickNumber.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -499,15 +559,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 b.setPositiveButton("Random", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent inew = new Intent(MainActivity.this, TicketList.class);
-                        startActivity(inew);
+                        Intent iRandom = new Intent(MainActivity.this, TicketList.class);
+                        iRandom.putExtra("roleType", roomPlayerRole);
+                        startActivity(iRandom);
                     }
                 });
                 b.setNegativeButton("Custom", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent icreate = new Intent(MainActivity.this, HomeActivity.class);
-                        startActivity(icreate);
+                        Intent iCreate = new Intent(MainActivity.this, HomeActivity.class);
+                        iCreate.putExtra("roleType", roomPlayerRole);
+                        startActivity(iCreate);
                     }
                 });
                 AlertDialog d = b.create();
