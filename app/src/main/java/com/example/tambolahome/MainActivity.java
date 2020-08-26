@@ -334,8 +334,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         numberGen = findViewById(R.id.random_number);
 
         if (roomPlayerRole.equals("GUEST")) {
+            pickNumber.setBackgroundColor(Color.parseColor("#979797"));
+            pickNumber.setClickable(false);
+            pickNumber.setFocusable(false);
             pickNumber.setEnabled(false);
         } else {
+            pickNumber.setClickable(true);
+            pickNumber.setFocusable(true);
             pickNumber.setEnabled(true);
         }
 

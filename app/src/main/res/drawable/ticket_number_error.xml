@@ -7,7 +7,7 @@
         android:height="30sp" />
 
     <stroke
-        android:color="#d53933"
+        android:color="#f10000"
         android:width="4sp" />
 
     <!--    <gradient-->

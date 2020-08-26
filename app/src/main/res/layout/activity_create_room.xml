@@ -47,91 +47,6 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/head_bar"
-        android:layout_above="@id/done"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold"
-            android:textColor="#fff"
-            android:text="Room Name:"
-            android:padding="8sp"
-            android:layout_above="@id/empty_space_horizontal"
-            android:layout_toStartOf="@id/empty_space_vertical"
-            android:gravity="center" />
-
-        <!--        <View-->
-        <!--            android:layout_width="52sp"-->
-        <!--            android:layout_height="0sp" />-->
-
-        <EditText
-            android:layout_width="250sp"
-            android:layout_height="wrap_content"
-            android:id="@+id/room_name_edit"
-            android:hint="(Max. 20 characters)"
-            android:maxLines="1"
-            android:maxLength="20"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:gravity="bottom|start"
-            android:textColorHint="#bdbdbd"
-            android:textColor="#fafafa"
-
-            android:textAppearance="?android:textAppearanceMedium"
-            android:layout_above="@id/empty_space_horizontal"
-            android:layout_toEndOf="@id/empty_space_vertical" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="16sp"
-            android:id="@+id/empty_space_horizontal"
-            android:layout_centerInParent="true" />
-
-        <View
-            android:layout_width="52sp"
-            android:layout_height="match_parent"
-            android:id="@+id/empty_space_vertical"
-            android:layout_centerInParent="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold"
-            android:textColor="#fff"
-            android:text="Password:"
-            android:padding="8sp"
-            android:layout_below="@id/empty_space_horizontal"
-            android:layout_toStartOf="@id/empty_space_vertical" />
-
-        <!--        <View-->
-        <!--            android:layout_width="52sp"-->
-        <!--            android:layout_height="0sp"/>-->
-
-        <EditText
-            android:layout_width="250sp"
-            android:layout_height="wrap_content"
-            android:id="@+id/room_pass_edit"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:hint="(Exactly 4 characters)"
-            android:maxLines="1"
-            android:maxLength="4"
-            android:gravity="top|start"
-            android:textColorHint="#bdbdbd"
-            android:textColor="#fafafa"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:layout_below="@id/empty_space_horizontal"
-            android:layout_toEndOf="@id/empty_space_vertical" />
-
-    </RelativeLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="4sp"
@@ -139,6 +54,185 @@
         android:layout_below="@+id/header"
         android:id="@+id/head_bar"
         android:layout_margin="8sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head_bar"
+        android:layout_above="@id/done"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="600sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_top"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/empty_space1_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:text="Host Name:"
+                android:gravity="end"
+                android:padding="8sp"
+                android:layout_toStartOf="@id/empty_space1_vertical" />
+
+            <View
+                android:layout_width="40sp"
+                android:layout_height="0sp"
+                android:id="@+id/empty_space1_vertical"
+                android:layout_centerInParent="true" />
+
+            <EditText
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/host_name_edit"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:hint="(Max. 10 characters)"
+                android:background="@drawable/ticket_layout"
+                android:padding="12sp"
+                android:maxLines="1"
+                android:maxLength="10"
+                android:gravity="start"
+                android:textColorHint="#bdbdbd"
+                android:textColor="#fafafa"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_toEndOf="@id/empty_space1_vertical" />
+
+            <ImageView
+                android:layout_width="24sp"
+                android:layout_height="24sp"
+                android:id="@+id/host_name_info"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_info_24"
+                android:foregroundGravity="center"
+                android:layout_toEndOf="@+id/host_name_edit"
+                android:layout_marginStart="12sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12sp"
+            android:id="@+id/empty_space1_horizontal"
+            android:layout_above="@+id/layout_mid" />
+
+        <RelativeLayout
+            android:layout_width="600sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_mid"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:text="Room Name:"
+                android:padding="8sp"
+                android:gravity="end"
+                android:layout_toStartOf="@id/empty_space2_vertical" />
+
+            <View
+                android:layout_width="40sp"
+                android:layout_height="0sp"
+                android:id="@+id/empty_space2_vertical"
+                android:layout_centerInParent="true" />
+
+            <EditText
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/room_name_edit"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:hint="(Max. 20 characters)"
+                android:background="@drawable/ticket_layout"
+                android:padding="12sp"
+                android:maxLines="1"
+                android:maxLength="20"
+                android:gravity="start"
+                android:textColorHint="#bdbdbd"
+                android:textColor="#fafafa"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_toEndOf="@id/empty_space2_vertical" />
+
+            <ImageView
+                android:layout_width="24sp"
+                android:layout_height="24sp"
+                android:id="@+id/room_name_info"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_info_24"
+                android:foregroundGravity="center"
+                android:layout_toEndOf="@+id/room_name_edit"
+                android:layout_marginStart="12sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12sp"
+            android:id="@+id/empty_space2_horizontal"
+            android:layout_below="@+id/layout_mid" />
+
+        <RelativeLayout
+            android:layout_width="600sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_end"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/empty_space2_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="#fff"
+                android:text="Password:"
+                android:padding="8sp"
+                android:gravity="end"
+                android:layout_toStartOf="@id/empty_space3_vertical" />
+
+            <View
+                android:layout_width="40sp"
+                android:layout_height="0sp"
+                android:id="@+id/empty_space3_vertical"
+                android:layout_centerInParent="true" />
+
+            <EditText
+                android:layout_width="200sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/room_pass_edit"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:hint="(Exactly 4 characters)"
+                android:background="@drawable/ticket_layout"
+                android:padding="12sp"
+                android:maxLines="1"
+                android:maxLength="4"
+                android:gravity="top|start"
+                android:textColorHint="#bdbdbd"
+                android:textColor="#fafafa"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:layout_toEndOf="@id/empty_space3_vertical" />
+
+            <ImageView
+                android:layout_width="24sp"
+                android:layout_height="24sp"
+                android:id="@+id/room_pass_info"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_info_24"
+                android:foregroundGravity="center"
+                android:layout_toEndOf="@+id/room_pass_edit"
+                android:layout_marginStart="12sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="wrap_content"
