@@ -1,5 +1,6 @@
 package com.example.tambolahome;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,9 +18,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +33,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainOfflineActivity extends AppCompatActivity implements View.OnClickListener {
 
     List<TextView> tr1 = new ArrayList<TextView>();
     List<TextView> tr2 = new ArrayList<TextView>();
@@ -43,12 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     List<List<Integer>> nums = new ArrayList<List<Integer>>();
 
     List<TextView> boardNums;
-
-    int defaultColorR = 0;
-    int defaultColorG = 0;
-    int defaultColorB = 0;
-
-    int selectedColorR, selectedColorG, selectedColorB, selectedColorRGB;
 
     public void initBoard(View board) {
         boardNums = new ArrayList<TextView>();
@@ -208,22 +208,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    LinearLayout changePen, newGame, undo, gameBoard, roomDisplay, hostDisplay, roleDisplay;
-    TextView undoText, numberGen, roleView, passView, hostView;
+    LinearLayout changePen, newGame, undo, gameBoard, roleDisplay;
+    TextView undoText, numberGen, roleView;
     ExtendedFloatingActionButton pickNumber;
     ImageView imgpen, imgnew, goHome, goBack, undoImg;
     SoundPool soundPool;
     SharedPreferences songPrefs;
+    int ALPHA = 255;
+    int RED = 0;
+    int BLUE = 0;
+    int GREEN = 0;
+    int colorHexCode;
+    String colorCodeInBuilt;
 
     int stroke = 0;
     boolean showAgain;
-    boolean undoClicked;
+    boolean undoClicked, playSong;
     int count;
     boolean[] numsDone;
-    boolean playSong;
     Random random = new Random();
     int buttonSound, backSound, clickSound, errorSound, winSound, cheerSound;
-    String roomHost, roomPlayerRole, roomPass;
+    String roomPlayerRole, game;
+
+    String defaultColorHexCode = "272929";
+    String colorHash = "#";
+    List<String> colorValues = new ArrayList<String>();
 
     HomeWatcher mHomeWatcher;
     private boolean mIsBound = false;
@@ -254,12 +263,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void roomDetailsAlert() {
-        AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
         b.setTitle("Game Room Details");
-        String line1 = "Host : " + roomHost;
-        String line2 = "\nPassword : " + roomPass;
-        String line3 = "\n\n\nYou are: " + roomPlayerRole;
-        b.setMessage(line1 + line2 + line3);
+//        String line1 = "Host : " + roomHost;
+//        String line2 = "\nPassword : " + roomPass;
+//        String line3 = "\n\n\nYou are: " + roomPlayerRole;
+//        b.setMessage(line1 + line2 + line3);
+        b.setMessage("You are playing an " + game + " game as " + roomPlayerRole);
         b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -273,20 +283,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_offline);
+
+        String[] colVals = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+                "a", "A", "b", "B", "c", "C", "d", "D", "e", "E", "f", "F"};
+
+        colorValues.addAll(Arrays.asList(colVals));
 
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
-
-        songPrefs = getSharedPreferences("MyPrefs", 0);
-        String value = songPrefs.getString("playSong", null);
-        if (value != null) {
-            playSong = Boolean.parseBoolean(value);
-        }
-        if (playSong) {
-            doBindService();
-            startService(music);
-        }
 
         mHomeWatcher = new HomeWatcher(this);
         mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
@@ -307,47 +312,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mHomeWatcher.startWatch();
 
         Intent intent = getIntent();
-
         roomPlayerRole = intent.getStringExtra("roleType");
+        game = intent.getStringExtra("gameType");
+        songPrefs = getSharedPreferences("MyPrefs", 0);
+        String value = songPrefs.getString("playSong", null);
+        if (value != null) {
+            playSong = Boolean.parseBoolean(value);
+        }
+        if (playSong) {
+            doBindService();
+            startService(music);
+        }
+
         List<Integer> row1 = intent.getIntegerArrayListExtra("row1");
         List<Integer> row2 = intent.getIntegerArrayListExtra("row2");
         List<Integer> row3 = intent.getIntegerArrayListExtra("row3");
 
         roleView = findViewById(R.id.role_name);
-        passView = findViewById(R.id.room_pass);
-        hostView = findViewById(R.id.host_name);
-
+        roleView.setText(roomPlayerRole);
         roleDisplay = findViewById(R.id.role_display);
-        roomDisplay = findViewById(R.id.room_display);
-        hostDisplay = findViewById(R.id.host_display);
-
         roleDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 roomDetailsAlert();
             }
         });
-
-        roomDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                roomDetailsAlert();
-            }
-        });
-
-        hostDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                roomDetailsAlert();
-            }
-        });
-
-        roomPass = "12345";
-        roomHost = "Manik";
-
-        roleView.setText(roomPlayerRole);
-        hostView.setText(roomHost);
-        passView.setText(roomPass);
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -421,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 if (count == 90) {
                     soundPool.play(errorSound, 1, 1, 1, 0, 1);
-                    AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
                     b.setTitle("Game Over");
                     b.setMessage("All numbers are picked. Go for a new game.");
                     b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -432,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
                     AlertDialog d = b.create();
                     d.show();
-//                    Toast.makeText(MainActivity.this, "All numbers are picked. Go for a new game.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainOfflineActivity.this, "All numbers are picked. Go for a new game.", Toast.LENGTH_LONG).show();
                 } else {
                     soundPool.play(clickSound, 1, 1, 1, 0, 1);
                     int randomNumber = random.nextInt(90);
@@ -449,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
-                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
                 b.setTitle("Game Board");
                 View board = getLayoutInflater().inflate(R.layout.game_board, null);
                 initBoard(board);
@@ -463,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 b.setNeutralButton("Missing numbers?", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        AlertDialog.Builder b1 = new AlertDialog.Builder(MainActivity.this);
+                        AlertDialog.Builder b1 = new AlertDialog.Builder(MainOfflineActivity.this);
                         b1.setTitle("Can't see some of the numbers?");
                         b1.setMessage("Scroll down on the Game Board to see all the numbers.");
                         b1.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -498,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     newGame.setClickable(false);
                     pickNumber.setClickable(false);
                     if (showAgain) {
-                        AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
                         b.setTitle("Select the numbers you want to UNDO. Once you're done, click on DONE (top-right of the screen).");
                         b.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
@@ -531,12 +520,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 soundPool.play(backSound, 1, 1, 1, 0, 1);
-                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
                 b.setTitle("You will lose any unsaved changes. Confirm?");
                 b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        onBackPressed();
+                        MainOfflineActivity.super.onBackPressed();
                     }
                 });
                 b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -557,62 +546,294 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.drawable.ic_pen_orange, R.drawable.ic_pen_pink, R.drawable.ic_pen_purple};
 
         final String[] colors = {"Red", "Blue", "Green", "Orange", "Pink", "Purple"};
+        final String[] colorCodes = {"#f10000", "#006eff", "#00ce43", "#ff8d00", "#ff4ba2", "#9039fe"};
 
         final int[] strokes = {R.drawable.done_red, R.drawable.done_blue, R.drawable.done_green,
                 R.drawable.done_orange, R.drawable.done_pink, R.drawable.done_purple};
 
-        stroke = strokes[0];
+        stroke = R.drawable.done_red;
 
-        final int[] penColor = {0};
+//        final int[] penColor = {0};
 
         changePen.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Choose Color Dialog!", Toast.LENGTH_SHORT).show();
+                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
+                AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
+                b.setTitle("Color Selection (color-wheel to be updated soon)");
+                b.setIcon(imgpen.getDrawable());
+                b.setMessage("Choose how you want to change the pen-color");
+                b.setNeutralButton("IN-BUILT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainOfflineActivity.this);
+                        builder.setTitle("Choose a color");
+                        builder.setIcon(imgpen.getDrawable());
+                        builder.setSingleChoiceItems(colors, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                colorCodeInBuilt = colorCodes[i];
+//                                penColor[0] = pens[i];
+//                                stroke = strokes[i];
+                            }
+                        });
+
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                                imgpen.setColorFilter(Color.parseColor(colorCodeInBuilt));
+                                Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorCodeInBuilt));
+                            }
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+                b.setNegativeButton("HEX-CODE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
+                        b.setTitle("Choose pen colour");
+                        b.setIcon(imgpen.getDrawable());
+                        View colorPicker = getLayoutInflater().inflate(R.layout.color_picker_layout, null);
+                        b.setView(colorPicker);
+
+                        final EditText colorCodeView = colorPicker.findViewById(R.id.color_code);
+                        colorCodeView.setText(defaultColorHexCode);
+                        final TextView colorBlock = colorPicker.findViewById(R.id.color_block);
+                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+                        Button checkColor = colorPicker.findViewById(R.id.checkColor);
+                        checkColor.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                String colorCodeText = colorCodeView.getText().toString().trim();
+                                Log.i("Color Code Length --> ", String.valueOf(colorCodeText.length()));
+                                if (colorCodeText.length() != 6) {
+                                    Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    int flag = 0;
+                                    String[] codeValues = colorCodeText.split("");
+                                    for (String cv : codeValues) {
+                                        if (!colorValues.contains(cv)) {
+                                            flag = 1;
+                                            Log.i("Color Code Value --> ", String.valueOf(cv));
+                                            break;
+                                        }
+                                    }
+                                    if (flag == 1) {
+                                        Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        defaultColorHexCode = colorCodeText;
+                                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+                                    }
+                                }
+                            }
+                        });
+
+                        b.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                            @SuppressLint("UseCompatLoadingForDrawables")
+                            @Override
+                            public void onClick(DialogInterface dialogInterface1, int i) {
+                                String colorCodeText = colorCodeView.getText().toString().trim();
+                                if (colorCodeText.length() != 6) {
+                                    Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+                                    dialogInterface1.dismiss();
+                                } else {
+                                    int flag = 0;
+                                    String[] codeValues = colorCodeText.split("");
+                                    for (String cv : codeValues) {
+                                        if (!colorValues.contains(cv)) {
+                                            flag = 1;
+                                        }
+                                    }
+                                    if (flag == 0) {
+                                        Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        defaultColorHexCode = colorCodeText;
+                                        imgpen.setColorFilter(Color.parseColor(colorHash + defaultColorHexCode));
+                                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+                                        Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorHash + defaultColorHexCode));
+                                    }
+                                }
+                            }
+                        });
+
+                        b.setNeutralButton("Default", new DialogInterface.OnClickListener() {
+                            @SuppressLint("UseCompatLoadingForDrawables")
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                defaultColorHexCode = "272929";
+                                imgpen.setColorFilter(Color.parseColor(colorHash + defaultColorHexCode));
+                                colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+                                Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorHash + defaultColorHexCode));
+                            }
+                        });
+
+                        b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                        AlertDialog d = b.create();
+                        d.show();
+                    }
+                });
+                b.setPositiveButton("PICKER", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        Toast.makeText(MainOfflineActivity.this, "Color Picker!", Toast.LENGTH_SHORT).show();
+                        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
+                        b.setTitle("Set your own color");
+                        b.setIcon(imgpen.getDrawable());
+                        View seekBarView = getLayoutInflater().inflate(R.layout.color_seekbar, null);
+                        b.setView(seekBarView);
+
+                        final TextView colorBlock = seekBarView.findViewById(R.id.color_block);
+                        SeekBar seekRed = seekBarView.findViewById(R.id.seekbar_red);
+                        SeekBar seekGreen = seekBarView.findViewById(R.id.seekbar_green);
+                        SeekBar seekBlue = seekBarView.findViewById(R.id.seekbar_blue);
+                        SeekBar seekAlpha = seekBarView.findViewById(R.id.seekbar_alpha);
+
+                        seekRed.setMax(255);
+                        seekRed.setProgress(RED);
+                        seekGreen.setMax(255);
+                        seekGreen.setProgress(GREEN);
+                        seekBlue.setMax(255);
+                        seekBlue.setProgress(BLUE);
+                        seekAlpha.setMax(255);
+                        seekAlpha.setProgress(ALPHA);
+
+                        colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
+                        colorBlock.setBackgroundColor(colorHexCode);
+
+                        seekRed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                RED = i;
+                                colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
+                                colorBlock.setBackgroundColor(colorHexCode);
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                            }
+                        });
+
+                        seekGreen.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                GREEN = i;
+                                colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
+                                colorBlock.setBackgroundColor(colorHexCode);
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                            }
+                        });
+
+                        seekBlue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                BLUE = i;
+                                colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
+                                colorBlock.setBackgroundColor(colorHexCode);
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                            }
+                        });
+
+                        seekAlpha.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                            @Override
+                            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                                ALPHA = i;
+                                colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
+                                colorBlock.setBackgroundColor(colorHexCode);
+                            }
+
+                            @Override
+                            public void onStartTrackingTouch(SeekBar seekBar) {
+
+                            }
+
+                            @Override
+                            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                            }
+                        });
+
+                        b.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                imgpen.setColorFilter(colorHexCode);
+                                Objects.requireNonNull(getDrawable(stroke)).setTint(colorHexCode);
+                            }
+                        });
+                        b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                        b.setNeutralButton("Default", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ALPHA = 255;
+                                RED = 39;
+                                GREEN = 41;
+                                BLUE = 41;
+                                colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
+                                imgpen.setColorFilter(colorHexCode);
+                                Objects.requireNonNull(getDrawable(stroke)).setTint(colorHexCode);
+                            }
+                        });
+
+                        AlertDialog d = b.create();
+                        d.show();
+                    }
+                });
+
+                AlertDialog d = b.create();
+                d.show();
             }
         });
-
-//        changePen.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                soundPool.play(buttonSound, 1, 1, 1, 0, 1);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-////
-//                builder.setTitle("Choose a color");
-//                builder.setIcon(imgpen.getDrawable());
-//
-//                builder.setSingleChoiceItems(colors, 0, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-////                        imgpen.setImageResource(pens[i]);
-//                        penColor[0] = pens[i];
-//                        stroke = strokes[i];
-//                    }
-//                });
-//
-//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                        imgpen.setImageResource(penColor[0]);
-//                    }
-//                });
-//
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            }
-//        });
 
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
-                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
                 b.setTitle("You will lose any unsaved changes. Confirm?");
                 b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent iHome = new Intent(MainActivity.this, HomePage.class);
+                        Intent iHome = new Intent(MainOfflineActivity.this, HomePage.class);
+                        iHome.putExtra("playSong", playSong);
                         startActivity(iHome);
                     }
                 });
@@ -632,13 +853,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
-                AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+                AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
                 b.setTitle("Select ticket type");
                 b.setPositiveButton("Random", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent iRandom = new Intent(MainActivity.this, TicketList.class);
+                        Intent iRandom = new Intent(MainOfflineActivity.this, TicketList.class);
                         iRandom.putExtra("roleType", roomPlayerRole);
+                        iRandom.putExtra("gameType", game);
                         iRandom.putExtra("playSong", playSong);
                         startActivity(iRandom);
                     }
@@ -646,8 +868,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 b.setNegativeButton("Custom", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent iCreate = new Intent(MainActivity.this, HomeActivity.class);
+                        Intent iCreate = new Intent(MainOfflineActivity.this, HomeActivity.class);
                         iCreate.putExtra("roleType", roomPlayerRole);
+                        iCreate.putExtra("gameType", game);
                         iCreate.putExtra("playSong", playSong);
                         startActivity(iCreate);
                     }
@@ -661,11 +884,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        Intent iBack = new Intent(MainActivity.this, ChooseTicketType.class);
-        iBack.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        iBack.putExtra("roleType", roomPlayerRole);
-        iBack.putExtra("playSong", playSong);
-        startActivity(iBack);
+        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
+        b.setTitle("You will lose any unsaved changes. Confirm?");
+        b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent iRole = new Intent(MainOfflineActivity.this, ChooseRoleType.class);
+                iRole.putExtra("playSong", playSong);
+                startActivity(iRole);
+            }
+        });
+        b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog d = b.create();
+        d.show();
     }
 
     @Override

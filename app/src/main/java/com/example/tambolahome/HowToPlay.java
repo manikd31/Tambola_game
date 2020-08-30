@@ -1,15 +1,18 @@
 package com.example.tambolahome;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -22,11 +25,75 @@ public class HowToPlay extends AppCompatActivity {
     SoundPool soundPool;
     TextView click, select, back, win, cheer, error;
     int clickSound, selectSound, backSound, winSound, cheerSound, errorSound;
+    boolean playSong;
+
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder) binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService() {
+        bindService(new Intent(this, MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService() {
+        if (mIsBound) {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+
+    HomeWatcher mHomeWatcher;
+    SharedPreferences songPrefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_howtoplay);
+
+//        playSong = getIntent().getBooleanExtra("playSong", false);
+        songPrefs = getSharedPreferences("MyPrefs", 0);
+        String value = songPrefs.getString("playSong", null);
+        if (value != null) {
+            playSong = Boolean.parseBoolean(value);
+        }
+
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+
+        if (playSong) {
+            doBindService();
+            startService(music);
+        }
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
 
         click = findViewById(R.id.sound_button);
         select = findViewById(R.id.sound_click);
@@ -119,9 +186,48 @@ public class HowToPlay extends AppCompatActivity {
             public void onClick(View view) {
                 soundPool.play(backSound, 1, 1, 1, 0, 1);
                 Intent iBack = new Intent(HowToPlay.this, HomePage.class);
+                iBack.putExtra("playSong", playSong);
                 startActivity(iBack);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServ != null) {
+            mServ.resumeMusic();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        stopService(music);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isInteractive();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
+            }
+        }
+
     }
 
     @Override

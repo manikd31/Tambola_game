@@ -1,12 +1,18 @@
 package com.example.tambolahome;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
@@ -22,6 +28,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChooseTicketType extends AppCompatActivity {
 
@@ -30,6 +37,39 @@ public class ChooseTicketType extends AppCompatActivity {
     List<View> views = new ArrayList<View>();
     ImageView goBack, goHome;
     LinearLayout gameRoleLayout;
+    String role, roleText, game, gameText;
+    int buttonSound, backSound, clickSound, selected;
+    SoundPool soundPool;
+    SharedPreferences songPrefs;
+    boolean playSong;
+
+    HomeWatcher mHomeWatcher;
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder) binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService() {
+        bindService(new Intent(this, MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService() {
+        if (mIsBound) {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
 
     public void changeSelected(View view) {
         for (View v : views) {
@@ -43,15 +83,40 @@ public class ChooseTicketType extends AppCompatActivity {
         }
     }
 
-    int selected;
-    String role, roleText;
-    int buttonSound, backSound, clickSound;
-    SoundPool soundPool;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_ticket);
+
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        songPrefs = getSharedPreferences("MyPrefs", 0);
+        String value = songPrefs.getString("playSong", null);
+        if (value != null) {
+            playSong = Boolean.parseBoolean(value);
+        }
+        if (playSong) {
+            doBindService();
+            startService(music);
+        }
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
 
         gameRole = findViewById(R.id.game_role);
         gameRoleLayout = findViewById(R.id.game_role_layout);
@@ -109,13 +174,26 @@ public class ChooseTicketType extends AppCompatActivity {
             role = "";
         }
 
+        if (iRole.hasExtra("gameType")) {
+            if (Objects.equals(iRole.getStringExtra("gameType"), "OFFLINE")) {
+                gameText = "Playing OFFLINE";
+                game = "OFFLINE";
+            } else {
+                game = "ONLINE";
+            }
+        }
+
         if (TextUtils.isEmpty(role)) {
             roleText = "Not logged in";
         } else {
             roleText = role;
         }
 
-        gameRole.setText(roleText);
+        if (game.equals("OFFLINE")) {
+            gameRole.setText(gameText);
+        } else {
+            gameRole.setText(roleText);
+        }
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -212,10 +290,12 @@ public class ChooseTicketType extends AppCompatActivity {
                     if (selected == 1) {
                         Intent iRandom = new Intent(ChooseTicketType.this, TicketList.class);
                         iRandom.putExtra("roleType", role);
+                        iRandom.putExtra("gameType", game);
                         startActivity(iRandom);
                     } else if (selected == 2) {
                         Intent iCreate = new Intent(ChooseTicketType.this, HomeActivity.class);
                         iCreate.putExtra("roleType", role);
+                        iCreate.putExtra("gameType", game);
                         startActivity(iCreate);
                     }
                     doneBtn.setClickable(false);
@@ -236,5 +316,42 @@ public class ChooseTicketType extends AppCompatActivity {
     public void onBackPressed() {
         Intent iBack = new Intent(ChooseTicketType.this, ChooseRoleType.class);
         startActivity(iBack);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isInteractive();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServ != null) {
+            mServ.resumeMusic();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        stopService(music);
     }
 }

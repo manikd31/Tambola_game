@@ -1,16 +1,21 @@
 package com.example.tambolahome;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +33,9 @@ public class HomeActivity extends AppCompatActivity {
     SoundPool soundPool;
     int buttonSound, backSound, errorSound, correctSound;
     int count;
-    String role;
+    String role, game;
+    boolean playSong;
+    SharedPreferences songPrefs;
 
     List<List<Integer>> tt = new ArrayList<List<Integer>>();
     ImageView goBack;
@@ -324,10 +331,69 @@ public class HomeActivity extends AppCompatActivity {
         return true;
     }
 
+    HomeWatcher mHomeWatcher;
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder) binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService() {
+        bindService(new Intent(this, MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService() {
+        if (mIsBound) {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
+
+        songPrefs = getSharedPreferences("MyPrefs", 0);
+        String value = songPrefs.getString("playSong", null);
+        if (value != null) {
+            playSong = Boolean.parseBoolean(value);
+        }
+        if (playSong) {
+            doBindService();
+            startService(music);
+        }
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -347,6 +413,7 @@ public class HomeActivity extends AppCompatActivity {
         initTicket();
         Intent iRole = getIntent();
         role = iRole.getStringExtra("roleType");
+        game = iRole.getStringExtra("gameType");
 
         done = findViewById(R.id.done);
         goBack = findViewById(R.id.go_back);
@@ -388,6 +455,7 @@ public class HomeActivity extends AppCompatActivity {
                                     iGame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) tt.get(1));
                                     iGame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) tt.get(2));
                                     iGame.putExtra("roleType", role);
+                                    iGame.putExtra("gameType", game);
                                     startActivity(iGame);
                                 }
                             });
@@ -419,6 +487,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent iChoose = new Intent(HomeActivity.this, ChooseTicketType.class);
                 iChoose.putExtra("roleType", role);
+                iChoose.putExtra("gameType", game);
                 startActivity(iChoose);
             }
         });
@@ -430,5 +499,42 @@ public class HomeActivity extends AppCompatActivity {
         });
         AlertDialog d = b.create();
         d.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isInteractive();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServ != null) {
+            mServ.resumeMusic();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        stopService(music);
     }
 }

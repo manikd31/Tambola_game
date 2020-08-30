@@ -1,11 +1,16 @@
 package com.example.tambolahome;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,11 +31,12 @@ public class TicketList extends AppCompatActivity {
 
     NumberGenerator numgen = new NumberGenerator();
 
-    LinearLayout ll1, ll2, ll3, ll4, ll5, ll6;
+    //    LinearLayout ll1, ll2, ll3, ll4, ll5, ll6;
     TextView tick1, tick2, tick3, tick4, tick5, tick6;
     ImageView tick1Img, tick2Img, tick3Img, tick4Img, tick5Img, tick6Img;
     SoundPool soundPool;
     int buttonSound, backSound, clickSound, errorSound;
+    SharedPreferences songPrefs;
 
     List<List<List<Integer>>> nums;
 
@@ -40,8 +46,8 @@ public class TicketList extends AppCompatActivity {
     ExtendedFloatingActionButton play;
 
     int selected = 0;
-    boolean sel1, sel2, sel3, sel4, sel5, sel6;
-    String role;
+    boolean sel1, sel2, sel3, sel4, sel5, sel6, playSong;
+    String role, game;
 
     List<TextView> t1r1 = new ArrayList<TextView>();
     List<TextView> t1r2 = new ArrayList<TextView>();
@@ -296,6 +302,34 @@ public class TicketList extends AppCompatActivity {
     List<TextView> ticks = new ArrayList<TextView>();
     List<ImageView> tickImgs = new ArrayList<ImageView>();
 
+    HomeWatcher mHomeWatcher;
+    private boolean mIsBound = false;
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder) binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService() {
+        bindService(new Intent(this, MusicService.class),
+                Scon, Context.BIND_AUTO_CREATE);
+        mIsBound = true;
+    }
+
+    void doUnbindService() {
+        if (mIsBound) {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+
     public void changeSelected(LinearLayout ll, TextView tick, ImageView timg) {
         for (LinearLayout layout : lls) {
             layout.setBackgroundResource(R.drawable.ticket_layout);
@@ -318,8 +352,39 @@ public class TicketList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tickets);
 
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
+
         Intent iRole = getIntent();
         role = iRole.getStringExtra("roleType");
+        game = iRole.getStringExtra("gameType");
+        songPrefs = getSharedPreferences("MyPrefs", 0);
+        String value = songPrefs.getString("playSong", null);
+        if (value != null) {
+            playSong = Boolean.parseBoolean(value);
+        }
+        if (playSong) {
+            doBindService();
+            startService(music);
+        }
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -359,6 +424,7 @@ public class TicketList extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent restart = getIntent();
                         restart.putExtra("roleType", role);
+                        restart.putExtra("gameType", game);
                         finish();
                         startActivity(restart);
                     }
@@ -385,6 +451,7 @@ public class TicketList extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent home = new Intent(TicketList.this, HomePage.class);
+                        home.putExtra("playSong", playSong);
                         startActivity(home);
                     }
                 });
@@ -525,6 +592,7 @@ public class TicketList extends AppCompatActivity {
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 String toast = "";
+                Log.i("GAME-TYPE ----> ", game);
                 switch (selected) {
                     case 0:
                         soundPool.play(errorSound, 1, 1, 1, 0, 1);
@@ -560,12 +628,23 @@ public class TicketList extends AppCompatActivity {
                 }
                 if (selected != 0) {
                     Toast.makeText(TicketList.this, toast, Toast.LENGTH_SHORT).show();
-                    Intent iGame = new Intent(TicketList.this, MainActivity.class);
-                    iGame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected - 1).get(0));
-                    iGame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected - 1).get(1));
-                    iGame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected - 1).get(2));
-                    iGame.putExtra("roleType", role);
-                    startActivity(iGame);
+                    if (game.equals("OFFLINE")) {
+                        Intent iGame = new Intent(TicketList.this, MainOfflineActivity.class);
+                        iGame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected - 1).get(0));
+                        iGame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected - 1).get(1));
+                        iGame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected - 1).get(2));
+                        iGame.putExtra("roleType", role);
+                        iGame.putExtra("gameType", game);
+                        startActivity(iGame);
+                    } else {
+                        Intent iGame = new Intent(TicketList.this, MainActivity.class);
+                        iGame.putIntegerArrayListExtra("row1", (ArrayList<Integer>) nums.get(selected - 1).get(0));
+                        iGame.putIntegerArrayListExtra("row2", (ArrayList<Integer>) nums.get(selected - 1).get(1));
+                        iGame.putIntegerArrayListExtra("row3", (ArrayList<Integer>) nums.get(selected - 1).get(2));
+                        iGame.putExtra("roleType", role);
+                        iGame.putExtra("gameType", game);
+                        startActivity(iGame);
+                    }
                 }
             }
         });
@@ -617,6 +696,8 @@ public class TicketList extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent iChoose = new Intent(TicketList.this, ChooseTicketType.class);
                 iChoose.putExtra("roleType", role);
+                iChoose.putExtra("gameType", game);
+                iChoose.putExtra("playSong", playSong);
                 startActivity(iChoose);
             }
         });
@@ -629,5 +710,42 @@ public class TicketList extends AppCompatActivity {
 
         AlertDialog d = b.create();
         d.show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isInteractive();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mServ != null) {
+            mServ.resumeMusic();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        stopService(music);
     }
 }

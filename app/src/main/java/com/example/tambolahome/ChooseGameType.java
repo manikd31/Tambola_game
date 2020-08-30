@@ -16,8 +16,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -25,17 +25,19 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseRoleType extends AppCompatActivity {
+public class ChooseGameType extends AppCompatActivity {
 
-    TextView roleHost, roleGuest;
-    ExtendedFloatingActionButton doneBtn;
-    List<View> views = new ArrayList<View>();
+    TextView offlineGame, onlineGame;
     ImageView goBack, goHome;
-    int selected;
-    boolean playSong;
-    int buttonSound, backSound, clickSound;
+    ExtendedFloatingActionButton done;
+    int buttonSound, backSound, clickSound, errorSound;
     SoundPool soundPool;
+    Intent intent;
+    String role, game;
+    int selected;
+    List<View> views = new ArrayList<>();
     SharedPreferences songPrefs;
+    boolean playSong;
 
     HomeWatcher mHomeWatcher;
     private boolean mIsBound = false;
@@ -71,16 +73,16 @@ public class ChooseRoleType extends AppCompatActivity {
         }
         if (selected != 0) {
             view.setBackgroundResource(R.drawable.ticket_type_selected);
-            doneBtn.setClickable(true);
+            done.setClickable(true);
         } else {
-            doneBtn.setClickable(false);
+            done.setClickable(false);
         }
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_role);
+        setContentView(R.layout.activity_choose_game_type);
 
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
@@ -103,8 +105,10 @@ public class ChooseRoleType extends AppCompatActivity {
         });
         mHomeWatcher.startWatch();
 
-//        Intent intent = getIntent();
-//        playSong = intent.getBooleanExtra("playSong", false);
+        selected = 0;
+
+        intent = getIntent();
+        role = intent.getStringExtra("roleType");
 
         songPrefs = getSharedPreferences("MyPrefs", 0);
         String value = songPrefs.getString("playSong", null);
@@ -116,6 +120,15 @@ public class ChooseRoleType extends AppCompatActivity {
             startService(music);
         }
 
+        offlineGame = findViewById(R.id.offline_game);
+        onlineGame = findViewById(R.id.online_game);
+        goBack = findViewById(R.id.go_back);
+        goHome = findViewById(R.id.go_home);
+        done = findViewById(R.id.done);
+
+        views.add(offlineGame);
+        views.add(onlineGame);
+
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                 .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -126,12 +139,10 @@ public class ChooseRoleType extends AppCompatActivity {
                 .setMaxStreams(5)
                 .build();
 
-        buttonSound = soundPool.load(this, R.raw.simple_error_sound, 1);
         backSound = soundPool.load(this, R.raw.back_sound, 1);
+        buttonSound = soundPool.load(this, R.raw.simple_error_sound, 1);
+        errorSound = soundPool.load(this, R.raw.wooden_error_sound, 1);
         clickSound = soundPool.load(this, R.raw.short_click_sound, 1);
-
-        goBack = findViewById(R.id.go_back);
-        goHome = findViewById(R.id.go_home);
 
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,85 +156,81 @@ public class ChooseRoleType extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
-                Intent iHome = new Intent(ChooseRoleType.this, HomePage.class);
-                iHome.putExtra("playSong", playSong);
+                Intent iHome = new Intent(ChooseGameType.this, HomePage.class);
                 startActivity(iHome);
             }
         });
 
-        roleHost = findViewById(R.id.random_ticket);
-        roleGuest = findViewById(R.id.custom_ticket);
-
-        doneBtn = findViewById(R.id.done);
-
-        views.add(roleHost);
-        views.add(roleGuest);
-
-        selected = 0;
-
-        roleHost.setOnClickListener(new View.OnClickListener() {
+        offlineGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 soundPool.play(clickSound, 1, 1, 1, 0, 1);
                 selected = 1;
-                roleHost.setTypeface(roleHost.getTypeface(), Typeface.BOLD);
-                roleHost.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-                roleHost.setTextColor(Color.parseColor("#272929"));
-                roleGuest.setTypeface(roleHost.getTypeface(), Typeface.NORMAL);
-                roleGuest.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-                roleGuest.setTextColor(Color.WHITE);
+                game = "OFFLINE";
+                offlineGame.setTypeface(offlineGame.getTypeface(), Typeface.BOLD);
+                offlineGame.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+                offlineGame.setTextColor(Color.parseColor("#272929"));
+                onlineGame.setTypeface(offlineGame.getTypeface(), Typeface.NORMAL);
+                onlineGame.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                onlineGame.setTextColor(Color.WHITE);
                 changeSelected(view);
             }
         });
 
-        roleGuest.setOnClickListener(new View.OnClickListener() {
+        onlineGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 soundPool.play(clickSound, 1, 1, 1, 0, 1);
                 selected = 2;
-                roleGuest.setTypeface(roleHost.getTypeface(), Typeface.BOLD);
-                roleGuest.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-                roleGuest.setTextColor(Color.parseColor("#272929"));
-                roleHost.setTypeface(roleHost.getTypeface(), Typeface.NORMAL);
-                roleHost.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-                roleHost.setTextColor(Color.WHITE);
+                game = "ONLINE";
+                onlineGame.setTypeface(offlineGame.getTypeface(), Typeface.BOLD);
+                onlineGame.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+                onlineGame.setTextColor(Color.parseColor("#272929"));
+                offlineGame.setTypeface(offlineGame.getTypeface(), Typeface.NORMAL);
+                offlineGame.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                offlineGame.setTextColor(Color.WHITE);
                 changeSelected(view);
             }
         });
 
-        doneBtn.setOnClickListener(new View.OnClickListener() {
+        done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 if (selected == 1) {
-//                    Add log-in features here to create room and play as host
-                    Intent iHost = new Intent(ChooseRoleType.this, ChooseGameType.class);
-                    iHost.putExtra("roleType", "HOST");
-                    startActivity(iHost);
+                    Intent iOffline = new Intent(ChooseGameType.this, ChooseTicketType.class);
+                    iOffline.putExtra("roleType", role);
+                    iOffline.putExtra("gameType", game);
+                    startActivity(iOffline);
                 } else if (selected == 2) {
-//                    Add log-in features here to join room and play as guest
-                    Intent iGuest = new Intent(ChooseRoleType.this, ChooseGameType.class);
-                    iGuest.putExtra("roleType", "GUEST");
-                    startActivity(iGuest);
+                    Toast.makeText(ChooseGameType.this, "Dialog Box to get password from GUEST and check in the list of rooms.", Toast.LENGTH_SHORT).show();
+                    Intent iOnline;
+                    if (role.equals("HOST")) {
+                        iOnline = new Intent(ChooseGameType.this, CreateRoom.class);
+                    } else {
+                        iOnline = new Intent(ChooseGameType.this, ChooseTicketType.class);
+                    }
+                    iOnline.putExtra("roleType", role);
+                    iOnline.putExtra("gameType", game);
+                    startActivity(iOnline);
                 }
-                doneBtn.setClickable(false);
+                done.setClickable(false);
                 selected = 0;
                 changeSelected(view);
-                roleHost.setTypeface(roleHost.getTypeface(), Typeface.NORMAL);
-                roleHost.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-                roleHost.setTextColor(Color.WHITE);
-                roleGuest.setTypeface(roleHost.getTypeface(), Typeface.NORMAL);
-                roleGuest.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
-                roleGuest.setTextColor(Color.WHITE);
+                offlineGame.setTypeface(offlineGame.getTypeface(), Typeface.NORMAL);
+                offlineGame.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                offlineGame.setTextColor(Color.WHITE);
+                onlineGame.setTypeface(offlineGame.getTypeface(), Typeface.NORMAL);
+                onlineGame.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28);
+                onlineGame.setTextColor(Color.WHITE);
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        Intent iHome = new Intent(ChooseRoleType.this, HomePage.class);
-        iHome.putExtra("playSong", playSong);
-        startActivity(iHome);
+        Intent iBack = new Intent(ChooseGameType.this, ChooseRoleType.class);
+        startActivity(iBack);
     }
 
     @Override

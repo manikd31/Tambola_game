@@ -1,12 +1,16 @@
 package com.example.tambolahome;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,25 +23,113 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.IOException;
-
 public class HomePage extends AppCompatActivity {
 
     SoundPool soundPool;
-    MediaPlayer mPlayer;
     TextView newGame, howToPLay;
     ImageView exitApp;
     RelativeLayout layout, appLogo;
     int buttonSound, logoSound;
     boolean playSong;
-    int streamId;
+
+    private boolean mIsBound;
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder
+                binder) {
+            mServ = ((MusicService.ServiceBinder) binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+
+    void doBindService() {
+        Intent i = new Intent(this, MusicService.class);
+        if (bindService(i, Scon, Context.BIND_AUTO_CREATE)) {
+            mIsBound = true;
+        }
+        SharedPreferences.Editor editor = songPrefs.edit();
+        editor.putString("mBound", String.valueOf(mIsBound));
+        editor.putString("intent", String.valueOf(i));
+        editor.apply();
+    }
+
+    void doUnbindService() {
+        if (mIsBound) {
+            unbindService(Scon);
+            mIsBound = false;
+            SharedPreferences.Editor editor = songPrefs.edit();
+            editor.putString("mBound", String.valueOf(mIsBound));
+            editor.apply();
+        }
+    }
+
+    HomeWatcher mHomeWatcher;
+    SharedPreferences songPrefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        playSong = false;
+//        Intent playMusic = getIntent();
+
+        songPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String value = songPrefs.getString("playSong", null);
+        String mValue = songPrefs.getString("mBound", null);
+        if (mValue != null) {
+            mIsBound = Boolean.parseBoolean(mValue);
+        } else {
+            mIsBound = false;
+            SharedPreferences.Editor editor = songPrefs.edit();
+            editor.putString("mBound", String.valueOf(mIsBound));
+            editor.apply();
+        }
+        Log.i("SharedPrefs HOME ---> ", String.valueOf(value));
+        if (value != null) {
+            playSong = Boolean.parseBoolean(value);
+            Log.i("SP (Not Null) ---> ", String.valueOf(playSong));
+            if (playSong) {
+                doBindService();
+                Intent music = new Intent();
+                music.setClass(this, MusicService.class);
+                startService(music);
+            }
+        } else {
+            playSong = false;
+            SharedPreferences.Editor editor = songPrefs.edit();
+            editor.putString("playSong", String.valueOf(playSong));
+            editor.apply();
+        }
+
+//        if (playMusic.hasExtra("playSong")) {
+//            playSong = playMusic.getBooleanExtra("playSong", false);
+//            if (playSong) {
+//                doBindService();
+//                startService(music);
+//            }
+//        }
+
+        mHomeWatcher = new HomeWatcher(this);
+        mHomeWatcher.setOnHomePressedListener(new HomeWatcher.OnHomePressedListener() {
+            @Override
+            public void onHomePressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+
+            @Override
+            public void onHomeLongPressed() {
+                if (mServ != null) {
+                    mServ.pauseMusic();
+                }
+            }
+        });
+        mHomeWatcher.startWatch();
 
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -48,8 +140,6 @@ public class HomePage extends AppCompatActivity {
                 .setAudioAttributes(attr)
                 .setMaxStreams(5)
                 .build();
-
-        mPlayer = null;
 
         logoSound = soundPool.load(this, R.raw.background_beat, 1);
         buttonSound = soundPool.load(this, R.raw.simple_error_sound, 1);
@@ -86,14 +176,28 @@ public class HomePage extends AppCompatActivity {
 //                    mPlayer.stop();
 ////                    soundPool.stop(streamId);
 //                }
-                if (mPlayer != null && mPlayer.isPlaying()) {
-                    mPlayer.stop();
-                    mPlayer.release();
-                    mPlayer = null;
+//                if (mPlayer != null && mPlayer.isPlaying()) {
+//                    mPlayer.stop();
+//                    mPlayer.release();
+//                    mPlayer = null;
+//                } else {
+//                    mPlayer = MediaPlayer.create(HomePage.this, R.raw.wii_background);
+//                    mPlayer.setLooping(true);
+//                    mPlayer.start();
+//                }
+                if (playSong) {
+                    doBindService();
+                    Intent music = new Intent();
+                    music.setClass(HomePage.this, MusicService.class);
+                    startService(music);
+//                    bindService(new Intent(HomePage.this, MusicService.class), Scon, Context.BIND_AUTO_CREATE);
                 } else {
-                    mPlayer = MediaPlayer.create(HomePage.this, R.raw.wii_background);
-                    mPlayer.setLooping(true);
-                    mPlayer.start();
+                    doUnbindService();
+                    Intent music = new Intent();
+                    music.setClass(HomePage.this, MusicService.class);
+                    stopService(music);
+//                    mServ.stopSelf();
+//                    mServ.stopMusic();
                 }
                 Animation popupAnim = AnimationUtils.loadAnimation(HomePage.this, R.anim.popup);
                 appLogo.startAnimation(popupAnim);
@@ -105,6 +209,10 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 Intent newGame = new Intent(HomePage.this, ChooseRoleType.class);
+                newGame.putExtra("playSong", playSong);
+                SharedPreferences.Editor editor = songPrefs.edit();
+                editor.putString("playSong", String.valueOf(playSong));
+                editor.apply();
                 startActivity(newGame);
             }
         });
@@ -114,6 +222,10 @@ public class HomePage extends AppCompatActivity {
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 Intent howToPlay = new Intent(HomePage.this, HowToPlay.class);
+                howToPlay.putExtra("playSong", playSong);
+                SharedPreferences.Editor editor = songPrefs.edit();
+                editor.putString("playSong", String.valueOf(playSong));
+                editor.apply();
                 startActivity(howToPlay);
             }
         });
@@ -122,10 +234,17 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        soundPool.pause(streamId);
-        if (playSong) {
-            if (mPlayer.isPlaying() && mPlayer != null) {
-                mPlayer.pause();
+
+        PowerManager pm = (PowerManager)
+                getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = false;
+        if (pm != null) {
+            isScreenOn = pm.isInteractive();
+        }
+
+        if (!isScreenOn) {
+            if (mServ != null) {
+                mServ.pauseMusic();
             }
         }
     }
@@ -133,12 +252,24 @@ public class HomePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        soundPool.resume(streamId);
-        if (playSong) {
-            if (!mPlayer.isPlaying() && mPlayer != null) {
-                mPlayer.start();
-            }
+
+        if (mServ != null) {
+            mServ.resumeMusic();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        doUnbindService();
+        Intent music = new Intent();
+        music.setClass(this, MusicService.class);
+        stopService(music);
+
+        SharedPreferences.Editor editor = songPrefs.edit();
+        editor.putString("playSong", "false");
+        editor.apply();
     }
 
     @Override
@@ -148,10 +279,10 @@ public class HomePage extends AppCompatActivity {
         b.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferences.Editor editor = songPrefs.edit();
+                editor.putString("playSong", "false");
+                editor.apply();
                 finishAffinity();
-                mPlayer.stop();
-                mPlayer.release();
-                mPlayer = null;
             }
         });
         b.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -163,5 +294,10 @@ public class HomePage extends AppCompatActivity {
 
         AlertDialog d = b.create();
         d.show();
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        return super.stopService(name);
     }
 }

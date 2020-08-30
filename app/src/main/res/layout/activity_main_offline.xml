@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="12sp"
+    android:background="@drawable/gradient_anim"
+    android:id="@+id/game_layout">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/head_game_layout"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:src="@drawable/ic_back"
+            android:background="@drawable/back_button_effect"
+            android:id="@+id/go_back"
+            android:layout_margin="8sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/new_game_layout"
+            android:background="@drawable/other_button_effect"
+            android:layout_margin="4sp"
+            android:padding="5sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_toLeftOf="@+id/empty_view1">
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:src="@drawable/ic_new_24"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:id="@+id/img_new"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/new_game"
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:text="New Game"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="40sp"
+            android:layout_height="0dp"
+            android:id="@+id/empty_view1"
+            android:layout_toStartOf="@+id/change_pen_layout" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_pen_layout"
+            android:background="@drawable/other_button_effect"
+            android:layout_margin="4sp"
+            android:padding="5sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:src="@drawable/ic_pen_red"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:id="@+id/img_pen"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/change_pen_color"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:layout_margin="5sp"
+                android:text="Change Pen"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="40sp"
+            android:layout_height="0dp"
+            android:id="@+id/empty_view2"
+            android:layout_toEndOf="@+id/change_pen_layout" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/undo_layout"
+            android:background="@drawable/other_button_effect"
+            android:layout_margin="4sp"
+            android:padding="5sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_toEndOf="@+id/empty_view2">
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:src="@drawable/ic_undo_24"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:id="@+id/img_undo"
+                android:clickable="false" />
+
+            <TextView
+                android:id="@+id/undo"
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="30sp"
+                android:text="Undo"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_margin="5sp"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_home_24"
+            android:background="@drawable/ticket_number_undone_effect"
+            android:layout_margin="8sp"
+            android:padding="8sp"
+            android:id="@+id/home_layout"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4sp"
+        android:id="@+id/head_bar"
+        android:layout_below="@+id/head_game_layout"
+        android:layout_marginStart="4sp"
+        android:layout_marginEnd="4sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
+        android:background="@drawable/blank_button" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head_bar"
+        android:id="@+id/role_layout"
+        android:gravity="center">
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:id="@+id/host_display"-->
+        <!--            android:layout_toStartOf="@id/empty_view3"-->
+        <!--            android:background="@drawable/howto_button_effect"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:padding="8sp"-->
+        <!--            android:gravity="center">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:textAppearance="?android:textAppearanceMedium"-->
+        <!--                android:textColor="#fff"-->
+        <!--                android:text="Host:"-->
+        <!--                android:paddingStart="16sp"-->
+        <!--                android:paddingEnd="0sp"-->
+        <!--                android:layout_margin="4sp"-->
+        <!--                android:id="@+id/host_head" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:textAppearance="?android:textAppearanceMediumInverse"-->
+        <!--                android:textColor="#fff"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:text="Manik"-->
+        <!--                android:paddingEnd="16sp"-->
+        <!--                android:paddingStart="0sp"-->
+        <!--                android:layout_margin="4sp"-->
+        <!--                android:id="@+id/host_name" />-->
+
+        <!--        </LinearLayout>-->
+
+        <!--        <View-->
+        <!--            android:layout_width="40sp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:id="@+id/empty_view3"-->
+        <!--            android:layout_toStartOf="@+id/role_display" />-->
+
+        <LinearLayout
+            android:id="@+id/role_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/howto_button_effect"
+            android:gravity="center"
+            android:padding="8sp">
+
+            <TextView
+                android:id="@+id/role_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4sp"
+                android:paddingStart="16sp"
+                android:paddingEnd="0sp"
+                android:text="You are:"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#fff" />
+
+            <TextView
+                android:id="@+id/role_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4sp"
+                android:paddingStart="0sp"
+                android:paddingEnd="16sp"
+                android:text="HOST"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!--        <View-->
+        <!--            android:layout_width="40sp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:id="@+id/empty_view4"-->
+        <!--            android:layout_toEndOf="@+id/role_display" />-->
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:id="@+id/room_display"-->
+        <!--            android:layout_toEndOf="@id/empty_view4"-->
+        <!--            android:background="@drawable/howto_button_effect"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            android:padding="8sp"-->
+        <!--            android:gravity="center">-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:textAppearance="?android:textAppearanceMedium"-->
+        <!--                android:textColor="#fff"-->
+        <!--                android:text="Password:"-->
+        <!--                android:paddingStart="16sp"-->
+        <!--                android:paddingEnd="0sp"-->
+        <!--                android:layout_margin="4sp"-->
+        <!--                android:id="@+id/room_head" />-->
+
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:textAppearance="?android:textAppearanceMediumInverse"-->
+        <!--                android:textColor="#fff"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:text="15786"-->
+        <!--                android:paddingEnd="16sp"-->
+        <!--                android:paddingStart="0sp"-->
+        <!--                android:layout_margin="4sp"-->
+        <!--                android:id="@+id/room_pass" />-->
+
+        <!--        </LinearLayout>-->
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4sp"
+        android:id="@+id/head_bar2"
+        android:layout_below="@+id/role_layout"
+        android:layout_marginStart="4sp"
+        android:layout_marginEnd="4sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
+        android:background="@drawable/blank_button" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_below="@+id/head_bar2">
+
+        <ScrollView
+            android:id="@+id/scroll_tickets"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="center"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:background="@drawable/ticket_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:padding="5sp"
+                android:orientation="vertical">
+
+                <!--        <TextView-->
+                <!--            android:id="@+id/ticket_id"-->
+                <!--            android:layout_width="match_parent"-->
+                <!--            android:layout_height="wrap_content"-->
+                <!--            android:layout_weight="1"-->
+                <!--            tools:text="Ticket No.: 24173"-->
+                <!--            android:textStyle="italic"-->
+                <!--            android:gravity="center"-->
+                <!--            android:textAppearance="?android:textAppearanceMedium"-->
+                <!--            android:paddingRight="10sp"-->
+                <!--            android:background="@drawable/ticket_layout"/>-->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="12sp"
+                    android:layout_margin="5sp"
+                    android:background="@drawable/blank"
+                    android:clickable="false" />
+
+                <LinearLayout
+                    android:layout_margin="5sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+                    <!--            android:background="@drawable/ticket_layout">-->
+
+                    <TextView
+                        android:id="@+id/col1a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col2a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="11"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col3a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="21"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col4a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="31"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col5a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="41"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col6a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="51"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col7a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="61"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col8a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="71"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col9a"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="81"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="5sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+                    <!--            android:background="@drawable/ticket_layout">-->
+
+                    <TextView
+                        android:id="@+id/col1b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col2b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="11"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col3b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="21"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col4b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="31"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col5b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="41"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col6b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="51"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col7b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="61"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col8b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="71"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col9b"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="81"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_margin="5sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+                    <!--            android:background="@drawable/ticket_layout">-->
+
+                    <TextView
+                        android:id="@+id/col1c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="1"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col2c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="11"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col3c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="21"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col4c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="31"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col5c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="41"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col6c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="51"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col7c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="61"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col8c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="71"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                    <!--            <View-->
+                    <!--                android:layout_width="2dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:background="#000" />-->
+
+                    <TextView
+                        android:textStyle="bold"
+                        android:id="@+id/col9c"
+                        android:layout_margin="5sp"
+                        android:layout_width="52sp"
+                        android:layout_height="52sp"
+                        tools:text="81"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:background="@drawable/ticket_number_undone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_margin="20sp"
+            android:id="@+id/number_layout"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:text="Pick"
+                android:gravity="center"
+                android:id="@+id/pick_number" />
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="4sp"-->
+            <!--                android:layout_marginBottom="4sp"-->
+            <!--                android:layout_marginTop="4sp"-->
+            <!--                android:background="@drawable/blank"/>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/random_number"
+                tools:text="23"
+                android:layout_margin="4sp"
+                android:paddingTop="8sp"
+                android:paddingBottom="8sp"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                android:textColor="@android:color/white"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8sp"
+                android:layout_marginTop="16sp"
+                android:padding="4sp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:id="@+id/game_board"
+                android:background="@drawable/other_button_effect">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_grid_24"
+                    android:padding="8sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textStyle="bold"
+                    android:text="Board"
+                    android:padding="8sp"
+                    android:layout_gravity="center"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
