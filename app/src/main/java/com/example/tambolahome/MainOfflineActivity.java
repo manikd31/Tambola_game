@@ -18,8 +18,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +33,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.OpacityBar;
+import com.larswerkman.holocolorpicker.SaturationBar;
+import com.larswerkman.holocolorpicker.ValueBar;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -214,12 +220,17 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
     ImageView imgpen, imgnew, goHome, goBack, undoImg;
     SoundPool soundPool;
     SharedPreferences songPrefs;
+    int initColorForPalette, opac, val, sat, finalColor;
+    List<Integer> hexColors = new ArrayList<>();
+    String[] codes = {"#ffa589", "#ff3700", "#f10000", "#d70060", "#f700ff", "#ff4f98", "#00ffff", "#00b1b4", "#ff8d00", "#ffb640",
+            "#ffdc26", "#fff16e", "#009900", "#00d400", "#a3ff96", "#0000f1", "#0089ff", "#5bb7ff", "#7600ff", "#a76bff"};
+
+    GridView colorGrid;
     int ALPHA = 255;
     int RED = 0;
     int BLUE = 0;
     int GREEN = 0;
     int colorHexCode;
-    String colorCodeInBuilt;
 
     int stroke = 0;
     boolean showAgain;
@@ -230,8 +241,6 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
     int buttonSound, backSound, clickSound, errorSound, winSound, cheerSound;
     String roomPlayerRole, game;
 
-    String defaultColorHexCode = "272929";
-    String colorHash = "#";
     List<String> colorValues = new ArrayList<String>();
 
     HomeWatcher mHomeWatcher;
@@ -280,6 +289,7 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
         d.show();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,8 +297,13 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
 
         String[] colVals = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
                 "a", "A", "b", "B", "c", "C", "d", "D", "e", "E", "f", "F"};
-
         colorValues.addAll(Arrays.asList(colVals));
+
+        for (String code : codes) {
+            hexColors.add(Color.parseColor(code));
+        }
+
+        initColorForPalette = hexColors.get(0);
 
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
@@ -361,7 +376,7 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < 90; i++) {
             numsDone[i] = false;
         }
-        ids = new ArrayList<Integer>();
+        ids = new ArrayList<>();
 
         RelativeLayout layout = findViewById(R.id.game_layout);
         AnimationDrawable animd = (AnimationDrawable) layout.getBackground();
@@ -542,18 +557,8 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
         imgpen = findViewById(R.id.img_pen);
         imgnew = findViewById(R.id.img_new);
 
-        final int[] pens = {R.drawable.ic_pen_red, R.drawable.ic_pen_blue, R.drawable.ic_pen_green,
-                R.drawable.ic_pen_orange, R.drawable.ic_pen_pink, R.drawable.ic_pen_purple};
-
-        final String[] colors = {"Red", "Blue", "Green", "Orange", "Pink", "Purple"};
-        final String[] colorCodes = {"#f10000", "#006eff", "#00ce43", "#ff8d00", "#ff4ba2", "#9039fe"};
-
-        final int[] strokes = {R.drawable.done_red, R.drawable.done_blue, R.drawable.done_green,
-                R.drawable.done_orange, R.drawable.done_pink, R.drawable.done_purple};
-
         stroke = R.drawable.done_red;
-
-//        final int[] penColor = {0};
+        Objects.requireNonNull(getDrawable(stroke)).setTint(initColorForPalette);
 
         changePen.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("UseCompatLoadingForDrawables")
@@ -561,129 +566,222 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
             public void onClick(View view) {
                 soundPool.play(buttonSound, 1, 1, 1, 0, 1);
                 AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
-                b.setTitle("Color Selection (color-wheel to be updated soon)");
+                b.setTitle("Color Selection");
                 b.setIcon(imgpen.getDrawable());
                 b.setMessage("Choose how you want to change the pen-color");
                 b.setNeutralButton("IN-BUILT", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainOfflineActivity.this);
-                        builder.setTitle("Choose a color");
-                        builder.setIcon(imgpen.getDrawable());
-                        builder.setSingleChoiceItems(colors, 0, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                colorCodeInBuilt = colorCodes[i];
-//                                penColor[0] = pens[i];
-//                                stroke = strokes[i];
-                            }
-                        });
-
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                                imgpen.setColorFilter(Color.parseColor(colorCodeInBuilt));
-                                Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorCodeInBuilt));
-                            }
-                        });
-
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
-                    }
-                });
-                b.setNegativeButton("HEX-CODE", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
                         AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
-                        b.setTitle("Choose pen colour");
+                        b.setTitle("Choose Your Color");
                         b.setIcon(imgpen.getDrawable());
-                        View colorPicker = getLayoutInflater().inflate(R.layout.color_picker_layout, null);
-                        b.setView(colorPicker);
-
-                        final EditText colorCodeView = colorPicker.findViewById(R.id.color_code);
-                        colorCodeView.setText(defaultColorHexCode);
-                        final TextView colorBlock = colorPicker.findViewById(R.id.color_block);
-                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
-                        Button checkColor = colorPicker.findViewById(R.id.checkColor);
-                        checkColor.setOnClickListener(new View.OnClickListener() {
+                        View layout = getLayoutInflater().inflate(R.layout.custom_dialog_view, null);
+                        colorGrid = layout.findViewById(R.id.grid_view);
+                        ColorAdapter adapter = new ColorAdapter();
+                        colorGrid.setAdapter(adapter);
+                        colorGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
-                            public void onClick(View view) {
-                                String colorCodeText = colorCodeView.getText().toString().trim();
-                                Log.i("Color Code Length --> ", String.valueOf(colorCodeText.length()));
-                                if (colorCodeText.length() != 6) {
-                                    Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    int flag = 0;
-                                    String[] codeValues = colorCodeText.split("");
-                                    for (String cv : codeValues) {
-                                        if (!colorValues.contains(cv)) {
-                                            flag = 1;
-                                            Log.i("Color Code Value --> ", String.valueOf(cv));
-                                            break;
-                                        }
-                                    }
-                                    if (flag == 1) {
-                                        Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                finalColor = hexColors.get(i);
+                                Objects.requireNonNull(getDrawable(R.drawable.color_selected)).setTint(finalColor);
+                                for (int child = 0; child < adapterView.getChildCount(); child++) {
+                                    ImageView v = adapterView.getChildAt(child).findViewById(R.id.grid_view_image);
+                                    if (i != child) {
+                                        Objects.requireNonNull(getDrawable(R.drawable.color_default)).setTint(hexColors.get(child));
+                                        v.setImageResource(R.drawable.color_default);
+//                                        v.getDrawable().setTint(hexColors.get(child));
                                     } else {
-                                        defaultColorHexCode = colorCodeText;
-                                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+                                        v.setImageResource(R.drawable.ic_round_black_check_24);
+                                        v.setBackground(getDrawable(R.drawable.color_selected));
                                     }
                                 }
                             }
                         });
-
+                        b.setView(layout);
                         b.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
-                            @SuppressLint("UseCompatLoadingForDrawables")
-                            @Override
-                            public void onClick(DialogInterface dialogInterface1, int i) {
-                                String colorCodeText = colorCodeView.getText().toString().trim();
-                                if (colorCodeText.length() != 6) {
-                                    Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
-                                    dialogInterface1.dismiss();
-                                } else {
-                                    int flag = 0;
-                                    String[] codeValues = colorCodeText.split("");
-                                    for (String cv : codeValues) {
-                                        if (!colorValues.contains(cv)) {
-                                            flag = 1;
-                                        }
-                                    }
-                                    if (flag == 0) {
-                                        Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        defaultColorHexCode = colorCodeText;
-                                        imgpen.setColorFilter(Color.parseColor(colorHash + defaultColorHexCode));
-                                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
-                                        Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorHash + defaultColorHexCode));
-                                    }
-                                }
-                            }
-                        });
-
-                        b.setNeutralButton("Default", new DialogInterface.OnClickListener() {
-                            @SuppressLint("UseCompatLoadingForDrawables")
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                defaultColorHexCode = "272929";
-                                imgpen.setColorFilter(Color.parseColor(colorHash + defaultColorHexCode));
-                                colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
-                                Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorHash + defaultColorHexCode));
+                                initColorForPalette = finalColor;
+                                imgpen.setColorFilter(finalColor);
+                                Objects.requireNonNull(getDrawable(stroke)).setTint(finalColor);
                             }
                         });
-
-                        b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        b.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
                             }
                         });
-
                         AlertDialog d = b.create();
                         d.show();
                     }
                 });
-                b.setPositiveButton("PICKER", new DialogInterface.OnClickListener() {
+                b.setNegativeButton("Palette", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
+                        b.setTitle("Choose Color");
+                        b.setIcon(imgpen.getDrawable());
+                        View palette = getLayoutInflater().inflate(R.layout.palette_layout, null);
+                        b.setView(palette);
+
+                        final ColorPicker colorPicker = palette.findViewById(R.id.color_picker);
+                        OpacityBar opacityBar = palette.findViewById(R.id.opacity_bar);
+                        final SaturationBar saturationBar = palette.findViewById(R.id.saturation_bar);
+                        ValueBar valueBar = palette.findViewById(R.id.value_bar);
+                        colorPicker.addOpacityBar(opacityBar);
+                        colorPicker.addSaturationBar(saturationBar);
+                        colorPicker.addValueBar(valueBar);
+
+                        colorPicker.setShowOldCenterColor(false);
+                        colorPicker.setOnColorChangedListener(new ColorPicker.OnColorChangedListener() {
+                            @Override
+                            public void onColorChanged(int color) {
+                                finalColor = color;
+                            }
+                        });
+                        opacityBar.setOnOpacityChangedListener(new OpacityBar.OnOpacityChangedListener() {
+                            @Override
+                            public void onOpacityChanged(int opacity) {
+                                opac = opacity;
+                            }
+                        });
+                        saturationBar.setOnSaturationChangedListener(new SaturationBar.OnSaturationChangedListener() {
+                            @Override
+                            public void onSaturationChanged(int saturation) {
+                                sat = saturation;
+                            }
+                        });
+                        valueBar.setOnValueChangedListener(new ValueBar.OnValueChangedListener() {
+                            @Override
+                            public void onValueChanged(int value) {
+                                val = value;
+                            }
+                        });
+                        b.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finalColor = colorPicker.getColor();
+                                initColorForPalette = finalColor;
+                                imgpen.setColorFilter(finalColor);
+                                Objects.requireNonNull(getDrawable(stroke)).setTint(finalColor);
+                            }
+                        });
+                        b.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Toast.makeText(MainOfflineActivity.this, "Cancelled.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        AlertDialog d = b.create();
+                        d.show();
+
+
+//                        Log.i("Palette -----> ", String.valueOf(initColorForPalette));
+//                        AmbilWarnaDialog d = new AmbilWarnaDialog(MainOfflineActivity.this, initColorForPalette, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+//                            @Override
+//                            public void onCancel(AmbilWarnaDialog dialog) {}
+//
+//                            @Override
+//                            public void onOk(AmbilWarnaDialog dialog, int color) {
+//                                finalColorForPalette = color;
+//                                finalColor = finalColorForPalette;
+//                                initColorForPalette = finalColor;
+//                                imgpen.setColorFilter(finalColor);
+//                                Objects.requireNonNull(getDrawable(stroke)).setTint(finalColor);
+//                            }
+//                        });
+//                        d.show();
+
+
+//                        AlertDialog.Builder b = new AlertDialog.Builder(MainOfflineActivity.this);
+//                        b.setTitle("Choose pen colour");
+//                        b.setIcon(imgpen.getDrawable());
+//                        View colorPicker = getLayoutInflater().inflate(R.layout.color_picker_layout, null);
+//                        b.setView(colorPicker);
+//
+//                        final EditText colorCodeView = colorPicker.findViewById(R.id.color_code);
+//                        colorCodeView.setText(defaultColorHexCode);
+//                        final TextView colorBlock = colorPicker.findViewById(R.id.color_block);
+//                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+//                        Button checkColor = colorPicker.findViewById(R.id.checkColor);
+//                        checkColor.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                String colorCodeText = colorCodeView.getText().toString().trim();
+//                                Log.i("Color Code Length --> ", String.valueOf(colorCodeText.length()));
+//                                if (colorCodeText.length() != 6) {
+//                                    Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+//                                } else {
+//                                    int flag = 0;
+//                                    String[] codeValues = colorCodeText.split("");
+//                                    for (String cv : codeValues) {
+//                                        if (!colorValues.contains(cv)) {
+//                                            flag = 1;
+//                                            Log.i("Color Code Value --> ", String.valueOf(cv));
+//                                            break;
+//                                        }
+//                                    }
+//                                    if (flag == 1) {
+//                                        Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+//                                    } else {
+//                                        defaultColorHexCode = colorCodeText;
+//                                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+//                                    }
+//                                }
+//                            }
+//                        });
+//
+//                        b.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+//                            @SuppressLint("UseCompatLoadingForDrawables")
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface1, int i) {
+//                                String colorCodeText = colorCodeView.getText().toString().trim();
+//                                if (colorCodeText.length() != 6) {
+//                                    Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+//                                    dialogInterface1.dismiss();
+//                                } else {
+//                                    int flag = 0;
+//                                    String[] codeValues = colorCodeText.split("");
+//                                    for (String cv : codeValues) {
+//                                        if (!colorValues.contains(cv)) {
+//                                            flag = 1;
+//                                        }
+//                                    }
+//                                    if (flag == 0) {
+//                                        Toast.makeText(MainOfflineActivity.this, "Invalid Color Code", Toast.LENGTH_SHORT).show();
+//                                    } else {
+//                                        defaultColorHexCode = colorCodeText;
+//                                        imgpen.setColorFilter(Color.parseColor(colorHash + defaultColorHexCode));
+//                                        colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+//                                        Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorHash + defaultColorHexCode));
+//                                    }
+//                                }
+//                            }
+//                        });
+//
+//                        b.setNeutralButton("Default", new DialogInterface.OnClickListener() {
+//                            @SuppressLint("UseCompatLoadingForDrawables")
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                defaultColorHexCode = "272929";
+//                                imgpen.setColorFilter(Color.parseColor(colorHash + defaultColorHexCode));
+//                                colorBlock.setBackgroundColor(Color.parseColor(colorHash + defaultColorHexCode));
+//                                Objects.requireNonNull(getDrawable(stroke)).setTint(Color.parseColor(colorHash + defaultColorHexCode));
+//                            }
+//                        });
+//
+//                        b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                dialogInterface.dismiss();
+//                            }
+//                        });
+//
+//                        AlertDialog d = b.create();
+//                        d.show();
+                    }
+                }).setPositiveButton("MIXER", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 //                        Toast.makeText(MainOfflineActivity.this, "Color Picker!", Toast.LENGTH_SHORT).show();
@@ -792,6 +890,8 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 imgpen.setColorFilter(colorHexCode);
                                 Objects.requireNonNull(getDrawable(stroke)).setTint(colorHexCode);
+                                finalColor = colorHexCode;
+                                initColorForPalette = finalColor;
                             }
                         });
                         b.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -810,6 +910,8 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
                                 colorHexCode = Color.argb(ALPHA, RED, GREEN, BLUE);
                                 imgpen.setColorFilter(colorHexCode);
                                 Objects.requireNonNull(getDrawable(stroke)).setTint(colorHexCode);
+                                finalColor = colorHexCode;
+                                initColorForPalette = finalColor;
                             }
                         });
 
@@ -986,5 +1088,38 @@ public class MainOfflineActivity extends AppCompatActivity implements View.OnCli
         Intent music = new Intent();
         music.setClass(this, MusicService.class);
         stopService(music);
+    }
+
+    private class ColorAdapter extends BaseAdapter {
+        @Override
+        public int getCount() {
+            return hexColors.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return i;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @SuppressLint({"UseCompatLoadingForDrawables", "InflateParams"})
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View v = view;
+            if (view == null) {
+                v = getLayoutInflater().inflate(R.layout.custom_grid_layout, null);
+            }
+            ImageView colImg = v.findViewById(R.id.grid_view_image);
+//            colImg.setBackgroundColor(hexColors.get(i));
+//            colImg.setColorFilter(hexColors.get(i));
+            colImg.setImageResource(R.drawable.color_default);
+            colImg.getDrawable().setTint(hexColors.get(i));
+//            Objects.requireNonNull(getDrawable(R.drawable.blank_solid)).setTint(hexColors.get(i));
+            return v;
+        }
     }
 }
