@@ -10,10 +10,10 @@ A simple Android-based application to play the Tambola game (British-version of 
 - Easter eggs for users to discover and have fun with
 - "Play Offline" feature for users to play together when together
 - Ability to play as HOST (choose numbers & play ticket) or GUETS (only play ticket)
+- Ability for users to play remotely (in an online private room)
 
 ### Features to be added soon
 - Ability to play more than one ticket at a time
 - Ability to create more than one custom tickets at a time
 - Ability to mix-and-match randomly generated tickets and custom tickets to play together
 - Different theme options for the application
-- Ability for users to play remotely (in an online private room)
